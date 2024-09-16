@@ -1,6 +1,6 @@
 from os import getenv
 
-API_ID = int(getenv("20628383"))
+API_ID = int(getenv("API_ID", "20628383"))
 API_HASH = getenv("API_HASH", "65a242463b8af9ba7b3c41d8de9738d1")
 BOT_TOKEN = getenv("BOT_TOKEN", "7066626001:AAHEUmbfZpVYceXZGQJ8QYJ9JR5l01ijOsY")
 SUDO = [int(i.strip()) for i in getenv("SUDO", "962802323 1315219809 1355116689 7283633166 1432756163 1344569458 1446111611 682111519").strip().split()]
