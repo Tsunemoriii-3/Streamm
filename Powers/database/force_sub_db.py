@@ -51,6 +51,6 @@ class FSUBS():
             curr = [int(i["c_id"]) for i in all_]
 
         else:
-            curr = self.db.find({})
+            curr = list(self.db.find({}))
 
         return curr

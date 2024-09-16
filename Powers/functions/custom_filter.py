@@ -26,7 +26,10 @@ async def not_commands(_, __, m: Message):
 
 def is_joined(func):
     async def force_subscriber(c: Client, m: Message):
-        is_auth = await is_authorized(None, None, m)
+        if not m.from_user:
+            await m.reply_text("You are not user...")
+            return
+        is_auth = bool(SUPPORTS().is_support_user(m.from_user.id) or m.from_user.id == OWNER_ID)
         if is_auth:
             return await func(c, m)
         to_del = await m.reply_text("Please wait checking if you are subscribed to f sub channels or not")
@@ -43,6 +46,8 @@ def is_joined(func):
                 data = (m.text.split(None, 1)[1]).lower()
                 if not data:
                     data = "start"
+                else:
+                    data = data
 
             user = m.from_user.id
 

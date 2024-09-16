@@ -188,6 +188,10 @@ character_query = """query ($id: Int, $search: String) {
 }"""
 
 
+async def genrate_deep_link(c, data:str):
+    return f"tg://resolve?domain={c.me.username}&start=a_{data}"
+
+
 def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = False):
     query, _id = get_anime_info(query, True)
     name = _id

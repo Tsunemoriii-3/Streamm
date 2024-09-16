@@ -21,7 +21,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
     data = q.data
     user = q.from_user
     chat = q.message.chat
-    await q.answer("Please wait working on the data recieved from callback...")
+    # await q.answer("Please wait working on the data recieved from callback...")
     if data == "close":
         await q.message.delete()
         return
@@ -144,7 +144,6 @@ Python version: {python_version()}
         _, episode = data.split(":", 1)
         ep = episode
         if _ == "ep":
-
             _id = name = ep.rsplit('-', 2)[0]
             epnumber = episode.rsplit("-",1)[-1]
             _id = get_anime_results(name, top=True)
@@ -152,8 +151,6 @@ Python version: {python_version()}
             txt = f"Here is the download and streamable link of {Name} episode {ep.rsplit('-',1)[1]}"
             page = int(q.message.caption.split("\n")
                        [-1].split(":")[-1].strip().split("/")[0].strip())
-            total_eps = int(q.message.caption.split("\n")
-                            [-2].split(":")[-1].strip())
             is_dub = is_dub_available(_id, epnumber)
             if is_dub:
                 kb = await sub_or_dub_kb(name, page, epnumber)
@@ -198,6 +195,11 @@ Python version: {python_version()}
         await c.send_photo(chat.id, picture, anime_info, reply_markup=kb)
         if to_del:
             os.remove(picture)
+        return
+
+    elif data.startswith("deep:"):
+        link = await genrate_deep_link(c, data.split(":")[-1])
+        await q.message.reply_text(f"Here is your deep link you can share it to your friend\n`{link}`")
         return
 
     elif data.startswith(("des:", "episode:", "char:")):

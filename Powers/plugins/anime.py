@@ -1,7 +1,6 @@
 import os
-from unittest import result
 
-from pyrogram import ContinuePropagation, filters
+from pyrogram import filters
 from pyrogram.types import Message
 
 from Powers.config import NO_RES_PIC, SEARCH_PIC, TRENDING
@@ -14,7 +13,8 @@ from Powers.utils import *
 @is_joined
 async def retrieve_char_info(_, m: Message):
     if len(m.command) <= 1:
-        await m.reply_text("Give me character name to search")
+        await m.reply_text("**USAGE**\n/character [name]\n**EXAMPLE:**\n/character luffy")
+        return
 
     to_del = await m.reply_text("Searching for the character")
     character = m.text.split(None, 1)[1]
@@ -35,7 +35,8 @@ async def retrieve_char_info(_, m: Message):
 @is_joined
 async def retrieve_anime(_, m: Message):
     if len(m.command) <= 1:
-        await m.reply_text("Give me anime name to search")
+        await m.reply_text("**USAGE:**\n/anime [name]\n**EXAMPLE:**\n/anime One piece")
+        return
 
     to_del = await m.reply_text("Searching for the anime")
     query = m.text.split(None, 1)[1]
@@ -69,13 +70,16 @@ async def retrieve_totire_anime(_, m: Message):
     await m.reply_photo(TRENDING, caption=txt, reply_markup=kb)
     return
 
-@DENDENMUSHI.on_message(filters.text & filters.private & no_cmd, group = 100)
+@DENDENMUSHI.on_message(filters.text & filters.private & no_cmd & ~filters.outgoing, group = 100)
 @is_joined
 async def search_anime_for_me(_, m: Message):
     query = m.text
-    results = get_anime_results(query)
-
     to_del = await m.reply_text("Searching for the anime")
+
+    try:
+        results = get_anime_results(query)
+    except:
+        results = False
 
     if not results:
         await to_del.delete()

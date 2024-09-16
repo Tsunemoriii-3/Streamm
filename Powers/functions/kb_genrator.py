@@ -177,6 +177,9 @@ async def ani_info_kb(anime_id):
         ],
         [
             IKB("Episodes", f"episode:{id_}")
+        ],
+        [
+            IKB("Genrate Deep link", f"deep:{id_}")
         ]
     ]
 
@@ -331,6 +334,9 @@ async def sub_or_dub_kb(anime_id, page, episode):
         [
             IKB("Sub", f"sub:{anime_id}_{page}_{episode}"),
             IKB("Dub", f"dub:{anime_id}_{page}_{episode}")
+        ],
+        [
+            IKB("Genrate deep link", f"deep:{anime_id}_{page}_{episode}")
         ],
         [
             IKB("Back", f"bep:{anime_id}_{page}"),

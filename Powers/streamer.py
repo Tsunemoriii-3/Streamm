@@ -24,6 +24,7 @@ class DENDENMUSHI(Client):
         LOGGER.info("Starting the bot...")
         await super().start()
         await load_support_users()
+        await load_channels()
         LOGGER.info("Adding scheduler to auto delete post...")
         schedule.add_job(auto_ddel_postss,'interval', [self], seconds = 5)
         LOGGER.info("Scheduler added starting the scheduler")

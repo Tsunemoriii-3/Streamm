@@ -1,6 +1,9 @@
 from pyrogram import filters
 from pyrogram.types import Message
+import os
+from Powers.database.auto_del_mess import auto_del_insert
 
+from Powers.config import NO_RES_PIC
 from Powers.streamer import DENDENMUSHI
 
 from . import *
@@ -10,7 +13,7 @@ from . import *
 @is_joined
 async def am_I_alive(c: DENDENMUSHI, m: Message):
     if len(m.text.strip().split()) > 1:
-        data = (m.text.split(None, 1)[1]).lower()
+        data = m.text.split(None, 1)[1]
         if data.startswith("de:"):
             to_get = await encode_decode(data.split(":")[-1], "decode")
             splited = to_get.split(":", 1)
@@ -18,6 +21,47 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                 character_name = splited[1]
             else:
                 anime_id = splited[1]
+        elif data.startswith("a_"):
+            anime_data = data.split("_")
+            if len(anime_data) == 2:
+                _id = anime_data[1]
+                try:
+                    _id = name = int(_id)
+                except:
+                    _id = await encode_decode(_id, "decode")
+                    name = _id
+                anime_info, picture = get_anime_info(name)
+                to_del = True
+                if not anime_info:
+                    anime_info = "404: No information found"
+                    to_del = False
+                    picture = NO_RES_PIC
+                    kb = None
+                else:
+                    kb = await ani_info_kb(_id)
+
+                await m.reply_photo(picture, caption=anime_info, reply_markup=kb)
+                if to_del:
+                    os.remove(picture)
+                return
+            else:
+                _id, page, ep = anime_data[1], anime_data[2], anime_data[3]
+                name = get_anime_results(_id, top=True)
+                Name = name.replace('-', ' ').capitalize()
+                is_dub = is_dub_available(name, ep)
+                txt = f"Here is the download and streamable link of {Name} episode {ep}"
+                if is_dub:
+                    kb = await sub_or_dub_kb(_id, page, ep)
+                    txt = f"You want to get the download and streamable link of {Name} episode {ep} in sub or dub?"
+                    await m.reply_text(txt, reply_markup=kb)
+                    return
+                links = get_download_stream_links(name, ep)
+                kb = await genrate_stream_kb(_id, page, links)
+
+                msg = m.reply_text(txt, reply_markup=kb)
+                tim = str(get_del_time())
+                auto_del_insert(tim, m.from_user.id, msg.id)
+                return
     txt = start_msg.format(mention=m.from_user.mention,
                            bot_name=c.me.full_name)
     kb = await start_kb_genrator()
@@ -26,7 +70,7 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
     except Exception as e:
         LOGGER.error(e)
         LOGGER.error(format_exc())
-    
+
     return
 
 
@@ -40,7 +84,7 @@ async def get_normal_user_help(c: DENDENMUSHI, m: Message):
     except Exception as e:
         LOGGER.error(e)
         LOGGER.error(format_exc())
-    
+
     return
 
 
@@ -53,5 +97,5 @@ async def get_dev_user_help(_, m: Message):
     except Exception as e:
         LOGGER.error(e)
         LOGGER.error(format_exc())
-    
+
     return
