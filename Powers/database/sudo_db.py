@@ -11,7 +11,8 @@ class SUPPORTS():
         self.db = DB_BASE["SUDO"]
 
     def insert_support_user(self, user_id):
-        self.db.insert_one({"_id": user_id})
+        if not self.is_support_user(user_id):
+            self.db.insert_one({"_id": user_id})
         return
 
     def is_support_user(self, user_id):
