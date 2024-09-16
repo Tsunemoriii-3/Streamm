@@ -7,7 +7,7 @@ from Powers import LOGGER, config
 
 try:
     DB_CLIENT = MongoClient(config.DB_URI)
-    DB_BASE = DB_CLIENT["ANIME-STREAMER"]
+    DB_BASE = DB_CLIENT["Stream-0.1"]
 except Exception as e:
     LOGGER.info("Got an error while initiation the Mongo client")
     LOGGER.error(e)
