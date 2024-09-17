@@ -13,15 +13,15 @@ from Powers.utils import *
 @is_joined
 async def retrieve_char_info(_, m: Message):
     if len(m.command) <= 1:
-        await m.reply_text("**USAGE**\n/character [name]\n**EXAMPLE:**\n/character luffy")
+        await m.reply_text("𝗘𝘅𝗮𝗺𝗽𝗹𝗲 - /character luffy")
         return
 
-    to_del = await m.reply_text("Searching for the character")
+    to_del = await m.reply_text("𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝚃𝚑𝚎 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 - 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
     character = m.text.split(None, 1)[1]
     txt, picture = get_character_info(character)
     if not txt:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"No character found with name {character}")
+        await m.reply_photo(NO_RES_PIC, caption=f"𝙽𝚘 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {character}")
         return
 
     kb = await char_description_back(character)
@@ -35,16 +35,16 @@ async def retrieve_char_info(_, m: Message):
 @is_joined
 async def retrieve_anime(_, m: Message):
     if len(m.command) <= 1:
-        await m.reply_text("**USAGE:**\n/anime [name]\n**EXAMPLE:**\n/anime One piece")
+        await m.reply_text("𝗘𝘅𝗮𝗺𝗽𝗹𝗲: /anime One Piece")
         return
 
-    to_del = await m.reply_text("Searching for the anime")
+    to_del = await m.reply_text("𝗝𝘂𝘀𝘁 𝗦𝗲𝗻𝗱 𝗧𝗵𝗲 𝗡𝗮𝗺𝗲 𝗼𝗳 𝗧𝗵𝗲 𝗔𝗻𝗶𝗺𝗲.")
     query = m.text.split(None, 1)[1]
     results = get_anime_results(query)
 
     if not results:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"No matching anime found for the given query {query}")
+        await m.reply_photo(NO_RES_PIC, caption=f"𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {query}")
         return
 
     total_pages = results[1]["totalPage"]
@@ -60,9 +60,9 @@ async def retrieve_anime(_, m: Message):
 async def retrieve_totire_anime(_, m: Message):
     if m.command[0] == "ongoing":
         results = get_trending_anime()
-        txt = "Here are the top 10 ongoing anime"
+        txt = "𝗧𝗼𝗽 𝟭𝟬 𝗢𝗻𝗴𝗼𝗶𝗻𝗴 𝗔𝗻𝗶𝗺𝗲 -"
     else:
-        txt = "Here are all time top 10 anime"
+        txt = "𝗧𝗼𝗽 𝟭𝟬 𝗔𝗻𝗶𝗺𝗲 𝗼𝗳 𝗔𝗹𝗹 𝗧𝗶𝗺𝗲 -"
         results = get_alltime_popular()
 
     kb = await genrate_top_anime_kb(results)
@@ -74,7 +74,7 @@ async def retrieve_totire_anime(_, m: Message):
 @is_joined
 async def search_anime_for_me(_, m: Message):
     query = m.text
-    to_del = await m.reply_text("Searching for the anime")
+    to_del = await m.reply_text("𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝙰𝚗𝚒𝚖𝚎 - {query} | 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
 
     try:
         results = get_anime_results(query)
@@ -83,13 +83,13 @@ async def search_anime_for_me(_, m: Message):
 
     if not results:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"No matching anime found for the given query {query}")
+        await m.reply_photo(NO_RES_PIC, caption=f"𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {query}")
         return
 
     total_pages = results[1]["totalPage"]
 
     txt = anime_res_txt.format(q=query, p=1, tp=total_pages)
-    to_del = await to_del.edit_text("Query found building the keyboard....")
+    to_del = await to_del.edit_text("𝙵𝚘𝚞𝚗𝚍 𝚂𝚘𝚖𝚎 𝚁𝚎𝚜𝚞𝚕𝚝𝚜 - 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
     kb = await get_search_res_kb(results)
 
     await to_del.delete()
