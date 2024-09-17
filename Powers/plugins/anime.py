@@ -13,7 +13,7 @@ from Powers.utils import *
 @is_joined
 async def retrieve_char_info(_, m: Message):
     if len(m.command) <= 1:
-        await m.reply_text("𝗘𝘅𝗮𝗺𝗽𝗹𝗲 - `/character luffy`")
+        await m.reply_text("𝗘𝘅𝗮𝗺𝗽𝗹𝗲 - `/character Horikita`")
         return
 
     to_del = await m.reply_text("𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝚃𝚑𝚎 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 - 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
