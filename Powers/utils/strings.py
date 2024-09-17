@@ -10,13 +10,13 @@ start_msg = """
 # [Sonic Otakus](https://t.me/Sonic_Otakus)! I can give streamable link as well as download link of all anime and do much more see help to know what I can do.
 
 help_msg = """
-» Just Send Me The Name of Any Anime, And I Will Give You The Results.
+<i><b>» Just Send Me The Name of Any Anime, And I Will Give You The Results.
 
 **Available Commands**
 • /ongoing: Top 10 Trending Ongoing Anime.
 • /top: Top 10 All Time Popular Anime.
 • /character [character name]: Search For The Given Character
-• For Anime: Type A Name, And Send It.
+• For Anime: Just Type A Name, And Send It.</i></b>
 """
 
 dev_msg = """
