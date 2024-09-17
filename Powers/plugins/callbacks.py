@@ -50,14 +50,13 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         speed = time.time() - start_time
 
         txt = f"""
-Bot Status:
 My Owner: {('@'+owner.username) if owner.username else owner.mention}
-Total number of peers: {sum(peers)}
-   ╚ Total number of users: {peers[0]}
-   ╚ Total number of chats: {peers[1]}
+Total Number of Users In Bot: {sum(peers)}
+   ╚ Total Number of Users: {peers[0]}
+   ╚ Total Number of Chats: {peers[1]}
 Ping: {speed * 1000:.3f}
-Pyrogram version: {__version__}
-Python version: {python_version()}
+Pyrogram Version: {__version__}
+Python Version: {python_version()}
 """
         await q.edit_message_caption(txt, reply_markup=kb)
         return
