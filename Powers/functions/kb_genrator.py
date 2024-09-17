@@ -310,7 +310,7 @@ async def genrate_stream_kb(anime_id, page, kwargs):
     en_query = f"{anime_id}_{page}"
     kb = [
         [
-            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 - 𝗢𝗻𝗹𝗶𝗻𝗲", url=kwargs["stream"]),
+            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 - 𝗢𝗻𝗹𝗶𝗻𝗲 --->", url=kwargs["stream"]),
         ]
     ]
     if type(kwargs["download"]) == list:
