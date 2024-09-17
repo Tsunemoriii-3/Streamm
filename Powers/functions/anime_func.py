@@ -404,8 +404,10 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         variables = {"search": query}
         search_query = anime_query
     response = requests.post(url, json={"query": search_query, "variables": variables})
+    if response.code == 429:
+        return 429, response
     if response.status_code != 200:
-        LOGGER.info(f"Failed to fetch anime info for query: {query} returned status code: {response.status_code}\n{response}")
+        LOGGER.info(f"Failed to fetch anime info for query: {query} returned status code: {response.status_code}\n{response.json()}")
         return None, None
     
     data = response.json()

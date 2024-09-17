@@ -1,3 +1,4 @@
+import asyncio
 import os
 import re
 import time
@@ -88,7 +89,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             return
         else:
             ani_id = query
-            last_EP = int(q.message.caption.split("\n")[-2].split(":")[-1].strip())
+            last_EP = int(q.message.caption.split("\n")[-2].split("-")[-1].strip())
             kb = await genrate_ep_kb(ani_id, last_EP, page)
             int_part, float_part = str(last_EP / 25).split(".")
             total_page = int(int_part) + \
@@ -112,6 +113,14 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             picture = NO_RES_PIC
             to_del = False
             kb = None
+        elif anime_info == 429:
+            try:
+                to_sleep = int(picture.headers["Retry-After"])
+            except:
+                to_sleep = 30
+            await q.answer(f"Too many requests: Please wait for {to_sleep} seconds")
+            await asyncio.sleep(to_sleep)
+            return
         else:
             kb = await ani_info_kb(name)
 
@@ -151,7 +160,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             Name = _id.replace('-', ' ').capitalize()
             txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
             page = int(q.message.caption.split("\n")
-                       [-1].split(":")[-1].strip().split("/")[0].strip())
+                       [-1].split("-")[-1].strip().split("/")[0].strip())
             is_dub = is_dub_available(_id, epnumber)
             if is_dub:
                 kb = await sub_or_dub_kb(name, page, epnumber)
