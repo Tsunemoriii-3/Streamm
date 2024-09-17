@@ -1,6 +1,7 @@
 start_msg = """
 𝗛𝗲𝗹𝗹𝗼!! 𝗖𝗼𝗺𝗽𝗮𝗱𝗿𝗲 ꈍ◡ꈍ
-<i>» Welcome To ⚡️⚡️Sonic Family⚡️⚡
+
+<b><i>» Welcome To ⚡️⚡️Sonic Family⚡️⚡
 » I'm Anime Flix - I Can Share Streaming And Download Links of Any Anime With You.
 » Just Type Name of Any Anime, And Get Surprised By The Results.
 » You Must Join My Channel @Sonic_Otakus And @Anime_Flix_Pro To Use Me.
@@ -39,44 +40,44 @@ dev_msg = """
 """
 
 ani_info_string = """
-<b><i>{name}
+<b>{name}</b>
 
-» 𝖲𝖼𝗈𝗋𝖾: {score}
-» 𝖲𝗈𝗎𝗋𝖼𝖾: {source}
-» 𝖳𝗒𝗉𝖾: {mtype}
-» 𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌: {episodes}
-» 𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇: {duration} minutes
-» 𝖲𝗍𝖺𝗍𝗎𝗌: {status}
-» 𝖥𝗈𝗋𝗆𝖺𝗍: {format}
-» 𝖦𝖾𝗇𝗋𝖾: {genre}
-» 𝖳𝖺𝗀𝗌: {tags}
-» 𝖠𝖽𝗎𝗅𝗍 𝖱𝖺𝗍𝖾𝖽: {isAdult}
-» 𝖲𝗍𝗎𝖽𝗂𝗈: {studio}
-» 𝖳𝗋𝖺𝗂𝗅𝖾𝗋: {trailer}
-» 𝖶𝖾𝖻𝗌𝗂𝗍𝖾: {siteurl}</i></b>
+<b><i>» <u>𝖲𝖼𝗈𝗋𝖾</u> ~ {score}
+» <u>𝖲𝗈𝗎𝗋𝖼𝖾</u> ~ {source}
+» <u>𝖳𝗒𝗉𝖾</u> ~ {mtype}
+» <u>𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌</u> ~ {episodes}
+» <u>𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇</u> ~ {duration} minutes
+» <u>𝖲𝗍𝖺𝗍𝗎𝗌</u> ~ {status}
+» <u>𝖥𝗈𝗋𝗆𝖺𝗍</u> ~ {format}
+» <u>𝖦𝖾𝗇𝗋𝖾</u> ~ {genre}
+» <u>𝖳𝖺𝗀𝗌</u> ~ {tags}
+» <u>𝖠𝖽𝗎𝗅𝗍 𝖱𝖺𝗍𝖾𝖽</u> ~ {isAdult}
+» <u>𝖲𝗍𝗎𝖽𝗂𝗈</u> ~ {studio}
+» <u>𝖳𝗋𝖺𝗂𝗅𝖾𝗋</u> ~ {trailer}
+» <u>𝖶𝖾𝖻𝗌𝗂𝗍𝖾</u> ~ {siteurl}</i></b>
 """
 
 ani_info_def_string = """
-<b><i>{name}
+<b>{name}</b>
 
-» 𝖳𝗒𝗉𝖾: {mtype}
-» 𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌: {episodes}
-» 𝖲𝗍𝖺𝗍𝗎𝗌: {status}
-» 𝖦𝖾𝗇𝗋𝖾: {genre}
-» First aired: {aired} 
-» Other name: {oname}</i></b>
+<b><i>» <u>𝖳𝗒𝗉𝖾</u> ~ {mtype}
+» <u>𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌</u> ~ {episodes}
+» <u>𝖲𝗍𝖺𝗍𝗎𝗌</u> ~ {status}
+» <u>𝖦𝖾𝗇𝗋𝖾</u> ~ {genre}
+» <u>First Aired</u> ~ {aired} 
+» <u>Other Name</u> ~ {oname}</i></b>
 """
 
 
 char_info_string = """
 <b><i>{name}
 
-» 𝖦𝖾𝗇𝖽𝖾𝗋: {gender}
-» 𝖣𝖺𝗍𝖾 𝗈𝖿 𝖡𝗂𝗋𝗍𝗁: {date_of_birth}
-» 𝖠𝗀𝖾: {age}
-» 𝖡𝗅𝗈𝗈𝖽 𝖳𝗒𝗉𝖾: {blood_type}
-» 𝖥𝖺𝗏𝗈𝗎𝗋𝗂𝗍𝖾𝗌: {favorites}
-» 𝖶𝖾𝖻𝗌𝗂𝗍𝖾: {siteurl}{role_in}</i></b>
+» <u>𝖦𝖾𝗇𝖽𝖾𝗋</u> ~ {gender}
+» <u>𝖣𝖺𝗍𝖾 𝗈𝖿 𝖡𝗂𝗋𝗍𝗁</u> ~ {date_of_birth}
+» <u>𝖠𝗀𝖾</u> ~ {age}
+» <u>𝖡𝗅𝗈𝗈𝖽 𝖳𝗒𝗉𝖾</u> ~ {blood_type}
+» <u>𝖥𝖺𝗏𝗈𝗎𝗋𝗂𝗍𝖾𝗌</u> ~ {favorites}
+» <u>𝖶𝖾𝖻𝗌𝗂𝗍𝖾</u> ~ {siteurl}{role_in}</i></b>
 """
 
 anime_res_txt = "<b><i>» Found Results For: {q}\nPage: {p}/{tp}</i></b>"
