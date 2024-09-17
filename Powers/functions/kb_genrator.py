@@ -40,12 +40,12 @@ async def get_fsub_kb(c: Client, data: str = "start") -> List[IKM]:
                 invite_link = await c.create_chat_invite_link(channel)
 
             fsub_join_links.append(
-                IKB(f"⚡️𝐉𝐨𝐢𝐧 𝐂𝐡𝐚𝐧𝐧𝐞𝐥 {i+1}⚡️", url=invite_link.invite_link)
+                IKB(f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {i+1}⚡️", url=invite_link.invite_link)
             )
 
         orgainzed = await orgainzed_kb(fsub_join_links)
         orgainzed.append(
-            [IKB(f"⚡️𝚁𝙴𝚂𝚃𝙰𝚁𝚃⚡️", url=f"t.me/{c.me.username}?start={data}")])
+            [IKB(f">>> 𝗧𝗿𝘆 𝗔𝗴𝗮𝗶𝗻 <<<", url=f"t.me/{c.me.username}?start={data}")])
 
         return IKM(orgainzed)
 
@@ -59,8 +59,8 @@ async def start_kb_genrator():
             IKB("Sonic Otakus", url="https://t.me/Sonic_Otakus")
         ],
         [
-            IKB("Status", "bot_status"),
-            IKB("Help", "get_help")
+            IKB("ʙᴏᴛ sᴛᴀᴛᴜs", "bot_status"),
+            IKB("ʜᴇʟᴘ", "get_help")
 
         ]
     ]
@@ -75,15 +75,15 @@ async def help_menu_kb(help: str = "user"):
     if help.lower() == "user":
         kb = [
             [
-                IKB("User help", "get_help"),
-                IKB("Home", "start_menu")
+                IKB("ʜᴇʟᴘ", "get_help"),
+                IKB("ʜᴏᴍᴇ", "start_menu")
             ]
         ]
     else:
         kb = [
             [
-                IKB("Sudo help", "get_sudo_help"),
-                IKB("Home", "start_menu")
+                IKB("sᴇᴄʀᴇᴛ", "get_sudo_help"),
+                IKB("ʜᴏᴍᴇ", "start_menu")
             ]
         ]
     return IKM(kb)
@@ -96,19 +96,19 @@ async def char_description_back(character, back: bool = False):
     if back:
         kb = [
             [
-                IKB("Description", f"cinfo:{character}")
+                IKB("ᴅᴇsᴄʀɪᴘᴛɪᴏɴ", f"cinfo:{character}")
             ],
             [
-                IKB("Close", "close")
+                IKB("ᴄʟᴏsᴇ", "close")
             ]
         ]
     else:
         kb = [
             [
-                IKB("Back", f"cdes:{character}")
+                IKB("ʙᴀᴄᴋ", f"cdes:{character}")
             ],
             [
-                IKB("Close", "close")
+                IKB("ᴄʟᴏsᴇ", "close")
             ]
         ]
 
@@ -131,29 +131,29 @@ async def get_search_res_kb(kwargs, page: int = 1):
     if total_page == 1:
         kb.append(
             [
-                IKB("❌", "close")
+                IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close")
             ]
         )
     elif page == 1:
         kb.append(
             [
-                IKB("❌", "close"),
-                IKB("▶️", f"next:{encoded_id}_{page+1}")
+                IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
+                IKB("▶️ 𝗡𝗲𝘅𝘁 ▶️", f"next:{encoded_id}_{page+1}")
             ]
         )
     elif page == total_page:
         kb.append(
             [
-                IKB("◀️", f"prev:{encoded_id}_{page-1}"),
-                IKB("❌", "close")
+                IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"prev:{encoded_id}_{page-1}"),
+                IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close")
             ]
         )
     else:
         kb.append(
             [
-                IKB("◀️", f"prev:{encoded_id}_{page-1}"),
-                IKB("❌", "close"),
-                IKB("▶️", f"next:{encoded_id}_{page+1}")
+                IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"prev:{encoded_id}_{page-1}"),
+                IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
+                IKB("▶️ 𝗡𝗲𝘅𝘁 ▶️", f"next:{encoded_id}_{page+1}")
             ]
         )
 
@@ -172,14 +172,14 @@ async def ani_info_kb(anime_id):
             id_ = anime_id
     kb = [
         [
-            IKB("Characters", f"char:{id_}"),
-            IKB("Description", f"des:{id_}")
+            IKB("ᴄʜᴀʀᴀᴄᴛᴇʀs", f"char:{id_}"),
+            IKB("ᴅᴇsᴄʀɪᴘᴛɪᴏɴ", f"des:{id_}")
         ],
         [
-            IKB("Episodes", f"episode:{id_}")
+            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 / 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 - 𝗘𝗽𝗶𝘀𝗼𝗱𝗲𝘀", f"episode:{id_}")
         ],
         [
-            IKB("Genrate Deep link", f"deep:{id_}")
+            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{id_}")
         ]
     ]
 
@@ -197,9 +197,9 @@ async def desc_back(anime, Des: bool = False):
             en_query = anime
     
     if Des:
-        return IKM([[IKB("Description", f"des:{en_query}"), IKB("Back", f"ainfo:{en_query}")]])
+        return IKM([[IKB("ᴅᴇsᴄʀɪᴘᴛɪᴏɴ", f"des:{en_query}"), IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}")]])
     else:
-        return IKM([[IKB("Characters", f"char:{en_query}"), IKB("Back", f"ainfo:{en_query}")]])
+        return IKM([[IKB("ᴄʜᴀʀᴀᴄᴛᴇʀs", f"char:{en_query}"), IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}")]])
 
 
 async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
@@ -231,8 +231,8 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
         rearranged.extend(
             [
                 [
-                    IKB("Back", f"ainfo:{en_query}"),
-                    IKB("❌", "close"),
+                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
                 ]
             ]
         )
@@ -242,19 +242,19 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
             [
 
                 [
-                    IKB("◀️", f"PREV:{encoded_id}_{curr_page-1}"),
-                    IKB("▶️", f"NEXT:{encoded_id}_{1}")
+                    IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"PREV:{encoded_id}_{curr_page-1}"),
+                    IKB("▶️ 𝗡𝗲𝘅𝘁 ▶️", f"NEXT:{encoded_id}_{1}")
                 ],
                 [
-                    IKB("◀️×5", f"PREV:{encoded_id}_{curr_page-5}"),
-                    IKB("5×▶️", f"NEXT:{encoded_id}_{1}")
+                    IKB("◀️ 𝟱 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{curr_page-5}"),
+                    IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{1}")
                 ],
                 [
-                    IKB("First Page", f"PREV:{encoded_id}_{1}"),
+                    IKB("◀️ 𝙵𝚒𝚛𝚜𝚝 𝙿𝚊𝚐𝚎", f"PREV:{encoded_id}_{1}"),
                 ],
                 [
-                    IKB("Back", f"ainfo:{en_query}"),
-                    IKB("❌", "close"),
+                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
                 ]
             ]
         )
@@ -263,19 +263,19 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
         rearranged.extend(
             [
                 [
-                    IKB("◀️", f"PREV:{encoded_id}_{curr_page-1}"),
-                    IKB("▶️", f"NEXT:{encoded_id}_{2}")
+                    IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"PREV:{encoded_id}_{curr_page-1}"),
+                    IKB("▶️ 𝗡𝗲𝘅𝘁 ▶️", f"NEXT:{encoded_id}_{2}")
                 ],
                 [
-                    IKB("◀️×5", f"PREV:{encoded_id}_{curr_page-5}"),
-                    IKB("5×▶️", f"NEXT:{encoded_id}_{curr_page+5}")
+                    IKB("◀️ 𝟱 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{curr_page-5}"),
+                    IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{curr_page+5}")
                 ],
                 [
-                    IKB("Laste Page", f"PREV:{encoded_id}_{total_page}"),
+                    IKB("𝙻𝚊𝚜𝚝 𝙿𝚊𝚐𝚎 ▶️", f"PREV:{encoded_id}_{total_page}"),
                 ],
                 [
-                    IKB("Back", f"ainfo:{en_query}"),
-                    IKB("❌", "close"),
+                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
                 ]
             ]
         )
@@ -284,20 +284,20 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
         rearranged.extend(
             [
                 [
-                    IKB("◀️", f"PREV:{encoded_id}_{curr_page-1}"),
-                    IKB("▶️", f"NEXT:{encoded_id}_{curr_page+1}")
+                    IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"PREV:{encoded_id}_{curr_page-1}"),
+                    IKB("▶️ 𝗡𝗲𝘅𝘁 ▶️", f"NEXT:{encoded_id}_{curr_page+1}")
                 ],
                 [
-                    IKB("◀️×5", f"PREV:{encoded_id}_{curr_page-5}"),
-                    IKB("5×▶️", f"NEXT:{encoded_id}_{curr_page+5}")
+                    IKB("◀️ 𝟱 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{curr_page-5}"),
+                    IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{curr_page+5}")
                 ],
                 [
-                    IKB("First Page", f"PREV:{encoded_id}_{1}"),
-                    IKB("Laste Page", f"NEXT:{encoded_id}_{total_page}"),
+                    IKB("◀️ 𝙵𝚒𝚛𝚜𝚝 𝙿𝚊𝚐𝚎", f"PREV:{encoded_id}_{1}"),
+                    IKB("𝙻𝚊𝚜𝚝 𝙿𝚊𝚐𝚎 ▶️", f"NEXT:{encoded_id}_{total_page}"),
                 ],
                 [
-                    IKB("Back", f"ainfo:{en_query}"),
-                    IKB("❌", "close"),
+                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
                 ]
             ]
         )
@@ -310,11 +310,11 @@ async def genrate_stream_kb(anime_id, page, kwargs):
     en_query = f"{anime_id}_{page}"
     kb = [
         [
-            IKB("Watch Online", url=kwargs["stream"]),
+            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 - 𝗢𝗻𝗹𝗶𝗻𝗲", url=kwargs["stream"]),
         ]
     ]
     if type(kwargs["download"]) == list:
-        kb.append([IKB("Download 👇", "BELOW_DOWNLOAD")])
+        kb.append([IKB("👇 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 👇", "BELOW_DOWNLOAD")])
         to_append = []
 
         for i in kwargs["download"]:
@@ -324,7 +324,7 @@ async def genrate_stream_kb(anime_id, page, kwargs):
         kb.append([IKB("Download", url=kwargs["download"])])
     kb.append(
         [
-            IKB("Back", f"bep:{en_query}"),
+            IKB("ʙᴀᴄᴋ", f"bep:{en_query}"),
         ]
     )
     return IKM(kb)
@@ -332,14 +332,14 @@ async def genrate_stream_kb(anime_id, page, kwargs):
 async def sub_or_dub_kb(anime_id, page, episode):
     kb = [
         [
-            IKB("Sub", f"sub:{anime_id}_{page}_{episode}"),
-            IKB("Dub", f"dub:{anime_id}_{page}_{episode}")
+            IKB("𝗦𝘂𝗯", f"sub:{anime_id}_{page}_{episode}"),
+            IKB("𝗗𝘂𝗯", f"dub:{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("Genrate deep link", f"deep:{anime_id}_{page}_{episode}")
+            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("Back", f"bep:{anime_id}_{page}"),
+            IKB("ʙᴀᴄᴋ", f"bep:{anime_id}_{page}"),
         ]
     ]
 
@@ -351,6 +351,6 @@ async def genrate_top_anime_kb(collection):
         data = collection[i]
         cb = f"ainfo:{data['id']}"
         kb.append([IKB(data["name"], cb)])
-    kb.append([IKB("❌", "close")])
+    kb.append([IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close")])
 
     return IKM(kb)
