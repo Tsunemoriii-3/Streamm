@@ -80,6 +80,6 @@ char_info_string = """
 » <u>𝖶𝖾𝖻𝗌𝗂𝗍𝖾</u> ~ {siteurl}{role_in}</i></b>
 """
 
-anime_res_txt = "<b><i>» Found Results For: {q}\nPage: {p}/{tp}</i></b>"
+anime_res_txt = "<b><i>» Found Results For: {q}\n\n» Page: {p}/{tp}</i></b>"
 
-ep_txt = "<b><i>» Choose The Episode You Want To Stream / Download From Below\nTotal Episodes: {ep}\nPage:{p}</i></b>"
+ep_txt = "<b><i>» Choose The Episode You Want To Stream / Download From Below.\n\n» Total Episodes - {ep}\n\n» Page - {p}</i></b>"
