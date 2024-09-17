@@ -27,7 +27,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         return
 
     elif data == "BELOW_DOWNLOAD":
-        await q.answer("Choose the quality given below this button", True)
+        await q.answer("𝙲𝚑𝚘𝚘𝚜𝚎 𝚈𝚘𝚞𝚛 𝙳𝚎𝚜𝚒𝚛𝚎𝚍 𝚀𝚞𝚊𝚕𝚒𝚝𝚢 𝙵𝚛𝚘𝚖 𝙱𝚎𝚕𝚘𝚠.", True)
         return
 
     elif data == "get_help":
@@ -43,7 +43,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data == "bot_status":
         start_time = time.time()
-        await q.edit_message_caption("Ping...")
+        await q.edit_message_caption("𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙸𝚗𝚏𝚘...")
         kb = await help_menu_kb()
         owner = await c.get_users(OWNER_ID)
         peers = PEERS().count_peers()
@@ -65,7 +65,7 @@ Python version: {python_version()}
     elif data == "get_sudo_help":
         is_auth = await is_authorized(None, None, q)
         if not is_auth:
-            await q.answer("You are not in my authorized users")
+            await q.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ, ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ.")
             return
         kb = await help_menu_kb()
         txt = dev_msg
@@ -82,7 +82,7 @@ Python version: {python_version()}
             query = int(query)
             anime_found = get_anime_results(query, page)
             txt = anime_res_txt.format(q=query, p=page, tp=anime_found[1]["totalPage"])
-            await q.answer("Genrating kb it might take few minutes...", True)
+            await q.answer("𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
             kb = await get_search_res_kb(anime_found, page)
             await q.edit_message_caption(txt, reply_markup=kb)
             return
@@ -131,7 +131,7 @@ Python version: {python_version()}
         name = _id
         _id = get_anime_results(name, top=True)
         Name = _id.replace('-', ' ').capitalize()
-        txt = f"Here is the download and streamable link of {Name} episode {epnumber}"
+        txt = f"𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {epnumber}"
         links = get_download_stream_links(_id, epnumber, dub)
         kb = await genrate_stream_kb(name, page, links)
 
@@ -148,13 +148,13 @@ Python version: {python_version()}
             epnumber = episode.rsplit("-",1)[-1]
             _id = get_anime_results(name, top=True)
             Name = _id.replace('-', ' ').capitalize()
-            txt = f"Here is the download and streamable link of {Name} episode {ep.rsplit('-',1)[1]}"
+            txt = f"𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
             page = int(q.message.caption.split("\n")
                        [-1].split(":")[-1].strip().split("/")[0].strip())
             is_dub = is_dub_available(_id, epnumber)
             if is_dub:
                 kb = await sub_or_dub_kb(name, page, epnumber)
-                txt = f"You want to get the download and streamable link of {Name} episode {ep.rsplit('-',1)[1]} in sub or dub?"
+                txt = f"𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
             links = get_download_stream_links(_id, epnumber)
@@ -168,7 +168,7 @@ Python version: {python_version()}
             _id, page = ep.split("_", 1)
             name = get_anime_results(_id, top=True)
             total_ep = get_last_ep(name)
-            await q.answer(f"Genrating ep kb it may take a while...", True)
+            await q.answer(f"𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
             kb = await genrate_ep_kb(_id, total_ep, int(page))
             txt = ep_txt.format(ep=total_ep, p=page)
 
@@ -199,7 +199,7 @@ Python version: {python_version()}
 
     elif data.startswith("deep:"):
         link = await genrate_deep_link(c, data.split(":")[-1])
-        await q.message.reply_text(f"Here is your deep link you can share it to your friend\n`{link}`")
+        await q.message.reply_text(f"𝗦𝗵𝗮𝗿𝗲𝗮𝗯𝗹𝗲 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱!!! \n\n𝗧𝗮𝗽 𝗧𝗼 𝗖𝗼𝗽𝘆 - `{link}`")
         return
 
     elif data.startswith(("des:", "episode:", "char:")):
@@ -212,7 +212,7 @@ Python version: {python_version()}
         if _ == "des":
             anime_description = get_anime_info(name, only_description=True)
             if not anime_description:
-                await q.answer("No description found")
+                await q.answer("𝗡𝗼 𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗙𝗼𝘂𝗻𝗱!!!")
                 return
             kb = await desc_back(_id)
 
@@ -222,15 +222,13 @@ Python version: {python_version()}
         elif _ == "char":
             characters = get_char_anime(name)
             if not characters:
-                await q.answer("No characters found")
+                await q.answer("𝗡𝗼 𝗖𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 𝗙𝗼𝘂𝗻𝗱!!!")
                 return
             kb = await desc_back(_id, True)
-            char = f"Here are the list of the characters in the anime {characters['anime_name']}:\n"
-            char += "╭────────────────•\n"
+            char = f"List of Characters In Anime - {characters['anime_name']}:\n"
             for i in range(1, len(characters)):
-                char += f"╰➢{characters[i]['name']} `{characters[i]['role']}`\n"
-            char += "╰────────────────•"
-
+                char += f"»{characters[i]['name']} `{characters[i]['role']}`\n"
+            
             await q.edit_message_caption(char, reply_markup=kb)
             return
 
@@ -261,5 +259,5 @@ Python version: {python_version()}
         return
 
     else:
-        await q.answer("No callback data found for this query 🤔")
+        await q.answer("ɴᴏ ʀᴇsᴜʟᴛs ғᴏᴜɴᴅ!!!")
         return
