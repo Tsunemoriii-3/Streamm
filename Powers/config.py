@@ -7,7 +7,7 @@ from os import getenv
 API_ID = 20628383  # This should be without anhhy quotation as it is integer
 API_HASH = "65a242463b8af9ba7b3c41d8de9738d1" #This should be inside the quotation as it is string
 BOT_TOKEN = "7066626001:AAHEUmbfZpVYceXZGQJ8QYJ9JR5l01ijOsY" # Same here
-SUDO = [int(i.strip()) for i in getenv("SUDO", "962802323 1315219809 1355116689 7283633166 1432756163 1344569458 1446111611 682111519").strip().split()]
+SUDO = [int(i.strip()) for i in getenv("SUDO", "1432756163 1344569458 1446111611 682111519").strip().split()]
 OWNER_ID = int(getenv("OWNER","1446111611"))
 FSUB_CHANNEL = [int(i.strip())
                 for i in getenv("FSUB_CHANNEL", "-1002402726494").strip().split()]
