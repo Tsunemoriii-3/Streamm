@@ -40,8 +40,8 @@ dev_msg = """
 """
 
 ani_info_string = """
-[🇺🇲] {english}
-<b>[{flag}] {local}</b>
+<b>[🇺🇲]</b> <i><b>{english}</b></i>
+<b>[{flag}]</b> <i><b>{local}</b></i>
 
 <b><i>» <u>𝖲𝖼𝗈𝗋𝖾</u> ~ {score}
 » <u>Source</u> ~ {source}

@@ -127,6 +127,8 @@ async def get_search_res_kb(kwargs, page: int = 1):
         if anime_name.endswith("(Dub)"):
             continue
         en_anime_id = get_anilist_id(anime_name)
+        if not en_anime_id:
+            continue
         kb.append([IKB(anime_name, f"aid:{en_anime_id}")])
 
     query = kwargs[1].get("query")

@@ -110,6 +110,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         if not anime_info:
             anime_info = "404: No information found"
             picture = NO_RES_PIC
+            to_del = False
             kb = None
         else:
             kb = await ani_info_kb(name)
