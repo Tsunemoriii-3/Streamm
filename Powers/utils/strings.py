@@ -15,7 +15,7 @@ help_msg = """
 **Available Commands**
 • /ongoing: Top 10 Trending Ongoing Anime.
 • /top: Top 10 All Time Popular Anime.
-• /character [character name]: Search For The Given Character
+• /character [character name]: Search For The Given Character.
 • For Anime: Just Type A Name, And Send It.</i></b>
 """
 
