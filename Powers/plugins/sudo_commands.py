@@ -11,10 +11,10 @@ from . import *
 @DENDENMUSHI.on_message(filters.command("addsudo") & auth_users)
 async def add_this_to_sudo(c: DENDENMUSHI, m: Message):
     if m.from_user.id != c.owner.id:
-        await m.reply_text("You are not owner, are you?")
+        await m.reply_text("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ, ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ.")
         return
     elif m.reply_to_message and not m.reply_to_message.from_user:
-        await m.reply_text("Reply to an user to add him in my suddoer list")
+        await m.reply_text("Reply to an user to add him in my sudo list.")
         return
 
     sup = SUPPORTS()
@@ -28,7 +28,7 @@ async def add_this_to_sudo(c: DENDENMUSHI, m: Message):
 @DENDENMUSHI.on_message(filters.command("rmsudo") & auth_users)
 async def remove_this_from_sudo(c: DENDENMUSHI, m: Message):
     if m.from_user.id != c.owner.id:
-        await m.reply_text("You are not owner, are you?")
+        await m.reply_text("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ, ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ.")
         return
     elif len(m.command) == 1:
         await m.reply_text("Give me an user to remove")
@@ -41,7 +41,7 @@ async def remove_this_from_sudo(c: DENDENMUSHI, m: Message):
 
     sup = SUPPORTS()
     sup.delete_support_user(user)
-    await m.reply_text(f"Removed {user} from suddoer's list")
+    await m.reply_text(f"Removed {user} from sudo list")
 
 
 @DENDENMUSHI.on_message(filters.command("addfsub") & auth_users)
