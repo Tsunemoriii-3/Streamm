@@ -582,7 +582,7 @@ def get_character_info(query, only_description: bool = False, pic_required: bool
 
     cameo = data["media"]["nodes"][0] if data["media"]["nodes"] else {}
     if cameo:
-        role_in = f"\n╰➢ **𝖱𝗈𝗅𝖾 𝖨𝗇:** [{cameo['title']['romaji']}]({cameo['siteUrl']})"
+        role_in = f"\n» **𝖱𝗈𝗅𝖾 𝖨𝗇:** [{cameo['title']['romaji']}]({cameo['siteUrl']})"
     else:
         role_in = ""
 
