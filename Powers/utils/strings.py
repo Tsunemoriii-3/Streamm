@@ -1,22 +1,21 @@
 start_msg = """
-Hey {mention}!
+𝗛𝗲𝗹𝗹𝗼!! 𝗖𝗼𝗺𝗽𝗮𝗱𝗿𝗲 ꈍ◡ꈍ
+<i>» Welcome To ⚡️⚡️Sonic Family⚡️⚡
+» I'm Anime Flix - I Can Share Streaming And Download Links of Any Anime With You.
+» Just Type Name of Any Anime, And Get Surprised By The Results.
+» You Must Join My Channel @Sonic_Otakus And @Anime_Flix_Pro To Use Me.
+» Enjoy Your Anime Watching Experience.</i></b>"""
 
-Myself {bot_name}
-
-I am developed to serve the channel [Sonic Otakus](https://t.me/Sonic_Otakus)! I can give streamable link as well as download link of all anime and do much more see help to know what I can do.
-"""
+# [Sonic Otakus](https://t.me/Sonic_Otakus)! I can give streamable link as well as download link of all anime and do much more see help to know what I can do.
 
 help_msg = """
-Just send me the name of any anime (or you can use /search [anime name]) I will search for it and give you the best matching results.
+» Just Send Me The Name of Any Anime, And I Will Give You The Results.
 
 **Available Commands**
-• /ongoing: Return the ongoing top 10 trending anime.
-• /top: Return the top 10 all time popular anime.
-• /search [anime name]: Search for the given anime
-• /character [character name]: Search for the given character
-
-
-NOTE: You can only search anime by name in my inbox
+• /ongoing: Top 10 Trending Ongoing Anime.
+• /top: Top 10 All Time Popular Anime.
+• /character [character name]: Search For The Given Character
+• For Anime: Type A Name, And Send It.
 """
 
 dev_msg = """
@@ -40,52 +39,46 @@ dev_msg = """
 """
 
 ani_info_string = """
-{name}
+<b><i>{name}
 
-╭────────────────•
-╰➢ **𝖲𝖼𝗈𝗋𝖾:** `{score}`
-╰➢ **𝖲𝗈𝗎𝗋𝖼𝖾:** `{source}`
-╰➢ **𝖳𝗒𝗉𝖾:** `{mtype}`
-╰➢ **𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌:** `{episodes}`
-╰➢ **𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇:** `{duration} minutes`
-╰➢ **𝖲𝗍𝖺𝗍𝗎𝗌:** `{status}`
-╰➢ **𝖥𝗈𝗋𝗆𝖺𝗍:** `{format}`
-╰➢ **𝖦𝖾𝗇𝗋𝖾:** `{genre}`
-╰➢ **𝖳𝖺𝗀𝗌:** `{tags}`
-╰➢ **𝖠𝖽𝗎𝗅𝗍 𝖱𝖺𝗍𝖾𝖽:** `{isAdult}`
-╰➢ **𝖲𝗍𝗎𝖽𝗂𝗈:** `{studio}`
-╰➢ **𝖳𝗋𝖺𝗂𝗅𝖾𝗋:** {trailer}
-╰➢ **𝖶𝖾𝖻𝗌𝗂𝗍𝖾:** {siteurl}
-╰────────────────•
+» 𝖲𝖼𝗈𝗋𝖾: {score}
+» 𝖲𝗈𝗎𝗋𝖼𝖾: {source}
+» 𝖳𝗒𝗉𝖾: {mtype}
+» 𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌: {episodes}
+» 𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇: {duration} minutes
+» 𝖲𝗍𝖺𝗍𝗎𝗌: {status}
+» 𝖥𝗈𝗋𝗆𝖺𝗍: {format}
+» 𝖦𝖾𝗇𝗋𝖾: {genre}
+» 𝖳𝖺𝗀𝗌: {tags}
+» 𝖠𝖽𝗎𝗅𝗍 𝖱𝖺𝗍𝖾𝖽: {isAdult}
+» 𝖲𝗍𝗎𝖽𝗂𝗈: {studio}
+» 𝖳𝗋𝖺𝗂𝗅𝖾𝗋: {trailer}
+» 𝖶𝖾𝖻𝗌𝗂𝗍𝖾: {siteurl}</i></b>
 """
 
 ani_info_def_string = """
-{name}
+<b><i>{name}
 
-╭────────────────•
-╰➢ **𝖳𝗒𝗉𝖾:** `{mtype}`
-╰➢ **𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌:** `{episodes}`
-╰➢ **𝖲𝗍𝖺𝗍𝗎𝗌:** `{status}`
-╰➢ **𝖦𝖾𝗇𝗋𝖾:** `{genre}`
-╰➢ **First aired:** `{aired}` 
-╰➢ **Other name:** `{oname}`
-╰────────────────•
+» 𝖳𝗒𝗉𝖾: {mtype}
+» 𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌: {episodes}
+» 𝖲𝗍𝖺𝗍𝗎𝗌: {status}
+» 𝖦𝖾𝗇𝗋𝖾: {genre}
+» First aired: {aired} 
+» Other name: {oname}</i></b>
 """
 
 
 char_info_string = """
-{name}
+<b><i>{name}
 
-╭────────────────•
-╰➢ **𝖦𝖾𝗇𝖽𝖾𝗋:** `{gender}`
-╰➢ **𝖣𝖺𝗍𝖾 𝗈𝖿 𝖡𝗂𝗋𝗍𝗁:** `{date_of_birth}`
-╰➢ **𝖠𝗀𝖾:** `{age}`
-╰➢ **𝖡𝗅𝗈𝗈𝖽 𝖳𝗒𝗉𝖾:** `{blood_type}`
-╰➢ **𝖥𝖺𝗏𝗈𝗎𝗋𝗂𝗍𝖾𝗌:** `{favorites}`
-╰➢ **𝖶𝖾𝖻𝗌𝗂𝗍𝖾:** {siteurl}{role_in}
-╰────────────────•
+» 𝖦𝖾𝗇𝖽𝖾𝗋: {gender}
+» 𝖣𝖺𝗍𝖾 𝗈𝖿 𝖡𝗂𝗋𝗍𝗁: {date_of_birth}
+» 𝖠𝗀𝖾: {age}
+» 𝖡𝗅𝗈𝗈𝖽 𝖳𝗒𝗉𝖾: {blood_type}
+» 𝖥𝖺𝗏𝗈𝗎𝗋𝗂𝗍𝖾𝗌: {favorites}
+» 𝖶𝖾𝖻𝗌𝗂𝗍𝖾: {siteurl}{role_in}</i></b>
 """
 
-anime_res_txt = "Found following results for the query: {q}\nPage: {p}/{tp}"
+anime_res_txt = "<b><i>» Found Results For: {q}\nPage: {p}/{tp}</i></b>"
 
-ep_txt = "Choose the episode you want to watch from below\nTotal episodes: {ep}\nPage:{p}"
+ep_txt = "<b><i>» Choose The Episode You Want To Stream / Download From Below\nTotal Episodes: {ep}\nPage:{p}</i></b>"
