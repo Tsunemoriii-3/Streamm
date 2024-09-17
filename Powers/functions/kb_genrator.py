@@ -59,6 +59,9 @@ async def start_kb_genrator():
             IKB("Sonic Otakus", url="https://t.me/Sonic_Otakus")
         ],
         [
+            IKB("Anime Flix", url="https://t.me/Anime_Flix_Pro")
+        ],
+        [
             IKB("ʙᴏᴛ sᴛᴀᴛᴜs", "bot_status"),
             IKB("ʜᴇʟᴘ", "get_help")
 
@@ -250,7 +253,7 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                     IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{1}")
                 ],
                 [
-                    IKB("◀️ 𝙵𝚒𝚛𝚜𝚝 𝙿𝚊𝚐𝚎", f"PREV:{encoded_id}_{1}"),
+                    IKB("◀️ 𝗙𝗶𝗿𝘀𝘁 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{1}"),
                 ],
                 [
                     IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
@@ -271,7 +274,7 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                     IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{curr_page+5}")
                 ],
                 [
-                    IKB("𝙻𝚊𝚜𝚝 𝙿𝚊𝚐𝚎 ▶️", f"PREV:{encoded_id}_{total_page}"),
+                    IKB("𝗟𝗮𝘀𝘁 𝗣𝗮𝗴𝗲 ▶️", f"PREV:{encoded_id}_{total_page}"),
                 ],
                 [
                     IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
@@ -292,8 +295,8 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                     IKB("𝟱 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{curr_page+5}")
                 ],
                 [
-                    IKB("◀️ 𝙵𝚒𝚛𝚜𝚝 𝙿𝚊𝚐𝚎", f"PREV:{encoded_id}_{1}"),
-                    IKB("𝙻𝚊𝚜𝚝 𝙿𝚊𝚐𝚎 ▶️", f"NEXT:{encoded_id}_{total_page}"),
+                    IKB("◀️ 𝗙𝗶𝗿𝘀𝘁 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{1}"),
+                    IKB("𝗟𝗮𝘀𝘁 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{total_page}"),
                 ],
                 [
                     IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
