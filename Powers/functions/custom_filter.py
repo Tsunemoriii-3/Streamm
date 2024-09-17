@@ -32,7 +32,7 @@ def is_joined(func):
         is_auth = bool(SUPPORTS().is_support_user(m.from_user.id) or m.from_user.id == OWNER_ID)
         if is_auth:
             return await func(c, m)
-        to_del = await m.reply_text("Please wait checking if you are subscribed to f sub channels or not")
+        to_del = await m.reply_text("<b><i>» Checking User Profile - Please Wait...</i></b>")
         user_id = 0
         if m.from_user:
             user_id = m.from_user.id
@@ -97,7 +97,7 @@ def is_joined(func):
             if f_join:
                 kb = await get_fsub_kb(c, data)
                 await m.reply_text(
-                    "𝐘𝐨𝐮 𝐃𝐢𝐝 𝐍𝐨𝐭 𝐉𝐨𝐢𝐧 𝐀𝐥𝐥 𝐓𝐡𝐞 𝐂𝐡𝐚𝐧𝐧𝐞𝐥𝐬, 𝐉𝐨𝐢𝐧 𝐅𝐢𝐫𝐬𝐭, 𝐓𝐡𝐞𝐧 𝐘𝐨𝐮 𝐂𝐚𝐧 𝐔𝐬𝐞 𝐌𝐲 𝐅𝐞𝐚𝐭𝐮𝐫𝐞𝐬.",
+                    "<b><i>» You Must Join All The Channels First To Access Me.</i></b>",
                     reply_markup=kb,
                 )
                 await to_del.delete()
@@ -108,12 +108,12 @@ def is_joined(func):
 
         elif not is_already and m.chat.type != CT.PRIVATE:
             await m.reply_text(
-                "𝐘𝐨𝐮 𝐍𝐞𝐞𝐝 𝐓𝐨 𝐬𝐭𝐚𝐫𝐭 𝐌𝐞 𝐈𝐧 𝐏𝐌.",
+                "<b><i>» Start Me In PM To Access My Features.</i></b>",
                 reply_markup=IKM(
                     [
                         [
                             IKB(
-                                "𝐘𝐨𝐮 𝐍𝐞𝐞𝐝 𝐓𝐨 𝐬𝐭𝐚𝐫𝐭 𝐌𝐞 𝐈𝐧 𝐏𝐌.",
+                                "<b><i>» Start Me In PM To Access My Features.</i></b>",
                                 url=f"t.me/{c.me.username}?start=start",
                             )
                         ]
