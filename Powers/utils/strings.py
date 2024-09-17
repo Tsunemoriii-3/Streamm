@@ -43,27 +43,27 @@ ani_info_string = """
 <b>{name}</b>
 
 <b><i>» <u>𝖲𝖼𝗈𝗋𝖾</u> ~ {score}
-» <u>𝖲𝗈𝗎𝗋𝖼𝖾</u> ~ {source}
-» <u>𝖳𝗒𝗉𝖾</u> ~ {mtype}
-» <u>𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌</u> ~ {episodes}
-» <u>𝖣𝗎𝗋𝖺𝗍𝗂𝗈𝗇</u> ~ {duration} minutes
-» <u>𝖲𝗍𝖺𝗍𝗎𝗌</u> ~ {status}
-» <u>𝖥𝗈𝗋𝗆𝖺𝗍</u> ~ {format}
-» <u>𝖦𝖾𝗇𝗋𝖾</u> ~ {genre}
-» <u>𝖳𝖺𝗀𝗌</u> ~ {tags}
-» <u>𝖠𝖽𝗎𝗅𝗍 𝖱𝖺𝗍𝖾𝖽</u> ~ {isAdult}
-» <u>𝖲𝗍𝗎𝖽𝗂𝗈</u> ~ {studio}
-» <u>𝖳𝗋𝖺𝗂𝗅𝖾𝗋</u> ~ {trailer}
-» <u>𝖶𝖾𝖻𝗌𝗂𝗍𝖾</u> ~ {siteurl}</i></b>
+» <u>Source</u> ~ {source}
+» <u>Type</u> ~ {mtype}
+» <u>Episodes</u> ~ {episodes}
+» <u>Duration</u> ~ {duration} minutes
+» <u>Status</u> ~ {status}
+» <u>Format</u> ~ {format}
+» <u>Genre</u> ~ {genre}
+» <u>Tags</u> ~ {tags}
+» <u>Adult Rated</u> ~ {isAdult}
+» <u>Studio</u> ~ {studio}
+» <u>Trailer</u> ~ {trailer}
+» <u>Website</u> ~ {siteurl}</i></b>
 """
 
 ani_info_def_string = """
 <b>{name}</b>
 
-<b><i>» <u>𝖳𝗒𝗉𝖾</u> ~ {mtype}
-» <u>𝖤𝗉𝗂𝗌𝗈𝖽𝖾𝗌</u> ~ {episodes}
-» <u>𝖲𝗍𝖺𝗍𝗎𝗌</u> ~ {status}
-» <u>𝖦𝖾𝗇𝗋𝖾</u> ~ {genre}
+<b><i>» <u>Type</u> ~ {mtype}
+» <u>Episodes</u> ~ {episodes}
+» <u>Status</u> ~ {status}
+» <u>Genre</u> ~ {genre}
 » <u>First Aired</u> ~ {aired} 
 » <u>Other Name</u> ~ {oname}</i></b>
 """
@@ -72,12 +72,12 @@ ani_info_def_string = """
 char_info_string = """
 <b><i>{name}
 
-» <u>𝖦𝖾𝗇𝖽𝖾𝗋</u> ~ {gender}
-» <u>𝖣𝖺𝗍𝖾 𝗈𝖿 𝖡𝗂𝗋𝗍𝗁</u> ~ {date_of_birth}
-» <u>𝖠𝗀𝖾</u> ~ {age}
-» <u>𝖡𝗅𝗈𝗈𝖽 𝖳𝗒𝗉𝖾</u> ~ {blood_type}
-» <u>𝖥𝖺𝗏𝗈𝗎𝗋𝗂𝗍𝖾𝗌</u> ~ {favorites}
-» <u>𝖶𝖾𝖻𝗌𝗂𝗍𝖾</u> ~ {siteurl}{role_in}</i></b>
+» <u>Gender</u> ~ {gender}
+» <u>Date of Birth</u> ~ {date_of_birth}
+» <u>Age</u> ~ {age}
+» <u>Blood Type</u> ~ {blood_type}
+» <u>favourites</u> ~ {favorites}
+» <u>Website</u> ~ {siteurl}{role_in}</i></b>
 """
 
 anime_res_txt = "<b><i>» Found Results For: {q}\n\n» Page: {p}/{tp}</i></b>"
