@@ -80,7 +80,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         if bool(re.match(r"^(prev|next)", splited[0])):
             query = int(query)
             anime_found = get_anime_results(query, page)
-            query = anime_found["title"].replace("-", " ")
+            query = (q.message.text or q.message.caption).split("\n")[0].split(":")[-1].strip()
             txt = anime_res_txt.format(q=query, p=page, tp=anime_found[1]["totalPage"])
             await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
             kb = await get_search_res_kb(anime_found, page)
