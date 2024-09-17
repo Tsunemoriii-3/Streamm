@@ -194,6 +194,8 @@ async def genrate_deep_link(c, data:str):
 
 def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = False):
     query, _id = get_anime_info(query, True)
+    if not query:
+        return {}
     name = _id
     query = quote(query)
     to_return = {}
@@ -403,12 +405,15 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         search_query = anime_query
     response = requests.post(url, json={"query": search_query, "variables": variables})
     if response.status_code != 200:
+        LOGGER.info(f"Failed to fetch anime info for query: {query} returned status code: {response.status_code}\n{response}")
         return None, None
     
     data = response.json()
     try:
         data = data["data"]["Page"]["media"][0]
-    except:
+    except Exception as e:
+        LOGGER.error(e)
+        LOGGER.error(format_exc())
         return None, None
     english_title = data["title"]["english"]
     native_title = data["title"]["native"]
