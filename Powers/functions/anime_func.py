@@ -458,7 +458,9 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         f.write(response)
 
     info = ani_info_string.format(
-        name=name,
+        english=english_title,
+        flag=flag,
+        local=native_title,
         score=score,
         source=source,
         mtype=mtype,
