@@ -21,7 +21,7 @@ async def retrieve_char_info(_, m: Message):
     txt, picture = get_character_info(character)
     if not txt:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {character}")
+        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - <b>{character}</b>")
         return
 
     kb = await char_description_back(character)
@@ -44,7 +44,7 @@ async def retrieve_anime(_, m: Message):
 
     if not results:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {query}")
+        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - <b>{query}</b>")
         return
 
     total_pages = results[1]["totalPage"]
@@ -74,7 +74,7 @@ async def retrieve_totire_anime(_, m: Message):
 @is_joined
 async def search_anime_for_me(_, m: Message):
     query = m.text
-    to_del = await m.reply_text(f"» 𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝙰𝚗𝚒𝚖𝚎 - {query} | 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
+    to_del = await m.reply_text(f"» 𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝙰𝚗𝚒𝚖𝚎 - <b>{query}</b> | 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
 
     try:
         results = get_anime_results(query)
@@ -85,7 +85,7 @@ async def search_anime_for_me(_, m: Message):
 
     if not results:
         await to_del.delete()
-        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - {query}")
+        await m.reply_photo(NO_RES_PIC, caption=f"» 𝙽𝚘 𝙰𝚗𝚒𝚖𝚎 𝙵𝚘𝚞𝚗𝚍 𝚆𝚒𝚝𝚑 𝙽𝚊𝚖𝚎 - <b>{query}</b>")
         return
 
     total_pages = results[1]["totalPage"]
