@@ -78,7 +78,9 @@ async def search_anime_for_me(_, m: Message):
 
     try:
         results = get_anime_results(query)
-    except:
+    except Exception as e:
+        LOGGER.error(e)
+        LOGGER.error(format_exc())
         results = False
 
     if not results:

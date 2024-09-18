@@ -1,7 +1,9 @@
-from datetime import datetime, timedelta
+from datetime import datetime
+from traceback import format_exc
 
 from pyrogram import Client
 
+from Powers import LOGGER
 from Powers.database.auto_del_mess import auto_del_delete, auto_del_get
 
 # from info import AUTO_DEL
@@ -49,7 +51,8 @@ async def auto_ddel_postss(app: Client):
             try:
                 await app.delete_messages(i["chat_id"],i["mess_id"])
                 auto_del_delete(i["datee"], i["chat_id"], i["mess_id"])
-                print("Deleted the post")
+                LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
             except Exception as e:
-                print(f"Failed: {e}\n")
+                LOGGER.error(e)
+                LOGGER.error(format_exc())
                 pass

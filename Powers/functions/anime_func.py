@@ -2,12 +2,18 @@ import calendar
 from traceback import format_exc
 from urllib.parse import quote
 
-import requests
+import httpx
 from bs4 import BeautifulSoup
 from lxml import html
 
 from Powers import LOGGER
+from Powers.functions.caching import CACHE
 from Powers.utils.strings import ani_info_string, char_info_string
+
+ani_info = CACHE.ani_info
+ani_chars = CACHE.ani_chars
+query_id = CACHE.query_id
+RESULTS = CACHE.results
 
 HEADERS = (
     {
@@ -194,23 +200,28 @@ async def genrate_deep_link(c, data:str):
 
 def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = False):
     query, _id = get_anime_info(query, True)
+    global RESULTS
     if not query:
         return {}
     name = _id
     query = quote(query)
     to_return = {}
-
     xpath = "//*[@id='wrapper_bg']/section/section[1]/div/div[2]/ul"
+    
+    if RESULTS and RESULTS.get(query) and RESULTS[query].get(page):
+        return RESULTS[query][page]
 
     if not page or page == 1:
         url = f"https://anitaku.pe/search.html?keyword={query}"
     else:
         url = f"https://anitaku.pe/search.html?keyword={query}&page={page}"
 
-    response = requests.get(url, headers=HEADERS)
+    response = httpx.get(url, headers=HEADERS)
+
     if response.status_code != 200:
-        LOGGER.info(f"requests.get returned {response.status_code} while searching for anime")
+        LOGGER.info(f"httpx.get returned {response.status_code} while searching for anime")
         return to_return
+
     to_lxml = html.fromstring(response.content)
 
     try: 
@@ -234,6 +245,10 @@ def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = 
                 to_return[num] = {"title":result.xpath(".//a/@title")[0], "id":result.xpath(".//a/@href")[0].split("/")[-1], "totalPage": total_page, "query": name}
             num += 1
 
+        if RESULTS.get(query):
+            RESULTS[query][page] = to_return
+        else:
+            RESULTS = {query: {page: to_return}}
         return to_return
     except Exception as e:
         LOGGER.error(e)
@@ -243,15 +258,23 @@ def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = 
 
 def get_char_anime(query):
     url = "https://graphql.anilist.co"
+    global ani_chars
+    global query_id
     query = str(query)
     if query.strip().isnumeric():
         query = int(query.strip())
         variables = {"id": query}
         search = anime_char_query_id
+        _id = query
     else:
         variables = {"search": query}
         search = anime_char_query
-    response = requests.post(url, json={"query": search, "variables": variables})
+        _id = query_id.get(query)
+    
+    if ani_chars.get(_id):
+        return ani_chars[_id]
+
+    response = httpx.post(url, json={"query": search, "variables": variables}, headers=HEADERS)
     if response.status_code != 200:
         return None, None
     
@@ -291,12 +314,14 @@ def get_char_anime(query):
             break
         num += 1
 
+    ani_chars[_id] = to_return
+
     return to_return
 
 def get_trending_anime(page: int = 1, number: int = 10):
     url = f"https://anilist.co/search/anime/trending?page={page}&perPage={number}"
     
-    res = requests.get(url)
+    res = httpx.get(url, headers=HEADERS)
 
     if res.status_code != 200:
         return None
@@ -322,7 +347,7 @@ def get_trending_anime(page: int = 1, number: int = 10):
 def get_alltime_popular(page: int = 1, number: int = 10):
     url = f"https://anilist.co/search/anime/popular?page={page}&perPage={number}"
     
-    res = requests.get(url)
+    res = httpx.get(url, headers=HEADERS)
 
     if res.status_code != 200:
         return None
@@ -351,7 +376,7 @@ def get_last_ep(anime_id):
     url = f"https://anitaku.pe/category/{anime_id}"
     xpath = "//*[@id='episode_page']"
 
-    response = requests.get(url, headers=HEADERS)
+    response = httpx.get(url, headers=HEADERS)
     if response.status_code != 200:
         return "N/A"
 
@@ -363,12 +388,18 @@ def get_last_ep(anime_id):
             return int(last_ep[0])
         else:
             return "N/A"
-    except:
+    except Exception as e:
+        LOGGER.error(e)
+        LOGGER.error(format_exc())
         return "N/A"
 
 
 def get_anilist_id(name):
     url = "https://graphql.anilist.co"
+    global query_id
+    if query_id.get(name):
+        return query_id[name]
+
     variables = {"search": name}
     search_query = """query ($id: Int,$search: String) {
         Page (perPage: 1) {
@@ -377,13 +408,14 @@ def get_anilist_id(name):
             }
         }
     }"""
-    response = requests.post(url, json={"query": search_query, "variables": variables})
+    response = httpx.post(url, json={"query": search_query, "variables": variables}, headers=HEADERS)
     if response.status_code != 200:
         return
     
     data = response.json()
     try:
         data = data["data"]["Page"]["media"][0]
+        query_id[name] = data["id"]
         return data["id"]
     except:
         return
@@ -395,18 +427,39 @@ def get_country_flag(country: str) -> str:
 
 def get_anime_info(query, only_name: bool = False, only_description: bool = False):
     url = "https://graphql.anilist.co"
+    global ani_info
+    global query_id
     query = str(query)
     if query.strip().isnumeric():
         query = int(query.strip())
         variables = {"id": query}
         search_query = anime_query_id
+        already = ani_info.get(query, False)
+        name = query_id.get(query)
+        _id = query
     else:
         variables = {"search": query}
         search_query = anime_query
-    response = requests.post(url, json={"query": search_query, "variables": variables})
-    if response.code == 429:
-        return 429, response
-    if response.status_code != 200:
+        _id = query_id.get(query)
+        already = ani_info.get(_id, False)
+        name = query
+    if already:
+        if only_name:
+            return name, _id
+        elif only_description:
+            return already["des"]
+        else:
+            response = httpx.get(f"https://img.anili.st/media/{_id}", headers=HEADERS).content
+            banner = f"anime_{_id}.jpg"
+            with open(banner, "wb") as f:
+                f.write(response)
+            return already["info"], banner
+    
+    response = httpx.post(url, json={"query": search_query, "variables": variables}, headers=HEADERS)
+
+    if response.status_code == 429:
+        return 429, response.json()
+    elif response.status_code != 200:
         LOGGER.info(f"Failed to fetch anime info for query: {query} returned status code: {response.status_code}\n{response.json()}")
         return None, None
     
@@ -422,6 +475,9 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     if not english_title:
         english_title = data["title"]["romaji"]
 
+    query_id[data["id"]] = english_title
+    query_id[english_title] = data["id"]
+
     if only_name:
         return english_title, data["id"]
 
@@ -430,8 +486,9 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     if only_description:
         return synopsis[0:1020]
 
+
     flag = get_country_flag(data["countryOfOrigin"])
-    name = f"**[{flag}] {english_title} ({native_title})**"
+    # name = f"**[{flag}] {english_title} ({native_title})**"
 
     anime_id = data["id"]
     score = data["averageScore"] if data["averageScore"] else "N/A"
@@ -459,7 +516,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     if data["trailer"] and data["trailer"]["site"] == "youtube":
         trailer = f"[Youtube](https://youtu.be/{data['trailer']['id']})"
 
-    response = requests.get(f"https://img.anili.st/media/{anime_id}").content
+    response = httpx.get(f"https://img.anili.st/media/{anime_id}", headers=HEADERS).content
     banner = f"anime_{anime_id}.jpg"
     with open(banner, "wb") as f:
         f.write(response)
@@ -483,6 +540,8 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         isAdult=isAdult,
     )
 
+    ani_info[data["id"]] = {"info": info, "des": synopsis[0:1020]}
+
     return info, banner
     
 
@@ -500,7 +559,7 @@ def get_download_links(anime_id):
     to_return = []
     try:
         ani_link = f"https://anitaku.pe/{anime_id}"
-        animelink = requests.get(ani_link, cookies=dict(auth=auth_gogo))
+        animelink = httpx.get(ani_link, cookies=dict(auth=auth_gogo), headers=HEADERS)
 
         soup = BeautifulSoup(animelink.content, "html.parser")
         source_url = soup.find("div", {'class': 'cf-download'}).findAll('a')
@@ -515,7 +574,7 @@ def get_download_links(anime_id):
 def is_dub_available(anime_id, ep_number):
     link = f"https://anitaku.pe/{anime_id}-dub-episode-{ep_number}"
     try:
-        response = requests.get(link, headers=HEADERS)
+        response = httpx.get(link, headers=HEADERS)
         if response.status_code == 200:
             return True
         else:
@@ -529,7 +588,7 @@ def get_download_stream_links(name, ep_number, dub: bool = False):
 
     to_return = {}
 
-    response = requests.get(url, headers=HEADERS)
+    response = httpx.get(url, headers=HEADERS)
     if response.status_code != 200:
         return to_return
     to_lxml = html.fromstring(response.content)
@@ -567,7 +626,7 @@ def get_date(data: dict) -> str:
 def get_character_info(query, only_description: bool = False, pic_required: bool = True):
     url = "https://graphql.anilist.co"
     variables = {"search": query}
-    response = requests.post(url, json={"query": character_query, "variables": variables})
+    response = httpx.post(url, json={"query": character_query, "variables": variables}, headers=HEADERS)
     if response.status_code != 200:
         return None, None
     
@@ -596,7 +655,7 @@ def get_character_info(query, only_description: bool = False, pic_required: bool
         role_in = ""
 
     if pic_required:
-        response = requests.get(data["image"]["large"]).content
+        response = httpx.get(data["image"]["large"], headers=HEADERS).content
         banner = f"character_{char_id}.jpg"
         with open(banner, "wb") as f:
             f.write(response)

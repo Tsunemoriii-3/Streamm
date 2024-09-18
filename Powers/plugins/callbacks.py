@@ -89,7 +89,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             return
         else:
             ani_id = query
-            last_EP = int(q.message.caption.split("\n")[-2].split("-")[-1].strip())
+            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            last_EP = int(q.message.caption.split("\n")[2].split("-")[-1].strip())
             kb = await genrate_ep_kb(ani_id, last_EP, page)
             int_part, float_part = str(last_EP / 25).split(".")
             total_page = int(int_part) + \
@@ -103,6 +104,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data.startswith("aid:"):
         _, anime = data.split(":", 1)
+        await q.answer("Please wait", True)
         to_del = True
         _id = anime
         name = _id 
@@ -244,7 +246,10 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
         else:
             _id = get_anime_results(name, top = True)
+            await q.answer("Generating ep kb. Please wait...", True)
             last_EP = get_last_ep(_id)
+            if type(last_EP) == str:
+                last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())
             kb = await genrate_ep_kb(name, last_EP)
             int_part, float_part = str(last_EP / 25).split(".")
             total_page = int(int_part) + (1 if bool(float_part.strip("0")) else 0)

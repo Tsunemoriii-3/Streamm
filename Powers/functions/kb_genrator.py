@@ -1,5 +1,4 @@
 from typing import List
-from urllib.parse import unquote
 
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton as IKB
@@ -7,10 +6,12 @@ from pyrogram.types import InlineKeyboardMarkup as IKM
 
 from Powers import LOGGER
 from Powers.database.force_sub_db import FSUBS
+from Powers.functions.caching import CACHE
 from Powers.utils.en_de_crypt import encode_decode
 
 from .anime_func import *
 
+ep_kb = CACHE.ep_kb
 
 async def orgainzed_kb(kbs: List[IKB], rows: int = 2) -> List[List[IKB]]:
     """
@@ -209,7 +210,10 @@ async def desc_back(anime, Des: bool = False):
 
 async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
     kb = []
+    global ep_kb
     anime_id = str(anime_id)
+    if ep_kb.get(anime_id, False) and ep_kb[anime_id].get(curr_page):
+        return ep_kb[anime_id][curr_page]
     per_page = f"{int(total_eps) / 25}"
     int_part, float_part = str(per_page).split(".")
     total_page = int(int_part) + (1 if bool(float_part.strip("0")) else 0)
@@ -307,8 +311,13 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
             ]
         )
 
+    i_kb = IKM(rearranged)
+    if ep_kb.get(anime_id):
+        ep_kb[anime_id][curr_page] = i_kb
+    else:
+        ep_kb[anime_id] = {curr_page: i_kb}
 
-    return IKM(rearranged)
+    return i_kb
 
 
 async def genrate_stream_kb(anime_id, page, kwargs):
