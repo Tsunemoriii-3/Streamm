@@ -82,17 +82,17 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             query = int(query)
             anime_found = get_anime_results(query, page)
             if anime_found == 429:
-                await q.answer("Traffic is high wait for few minutes then try again", True)
+                await q.answer("» 𝚃𝚘𝚘 𝙼𝚊𝚗𝚢 𝚄𝚜𝚎𝚛𝚜 𝙰𝚛𝚎 𝚄𝚜𝚒𝚗𝚐 𝙼𝚎, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚃𝚛𝚢 𝙰𝚐𝚊𝚒𝚗 𝙸𝚗 𝟻 𝙼𝚒𝚗𝚞𝚝𝚎𝚜.", True)
                 return
             query = (q.message.text or q.message.caption).split("\n")[0].split(":")[-1].strip()
             txt = anime_res_txt.format(q=query, p=page, tp=anime_found[1]["totalPage"])
-            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
             kb = await get_search_res_kb(anime_found, page)
             await q.edit_message_caption(txt, reply_markup=kb)
             return
         else:
             ani_id = query
-            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
             last_EP = int(q.message.caption.split("\n")[2].split("-")[-1].strip())
             kb = await genrate_ep_kb(ani_id, last_EP, page)
             int_part, float_part = str(last_EP / 25).split(".")
@@ -107,14 +107,14 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data.startswith("aid:"):
         _, anime = data.split(":", 1)
-        await q.answer("Please wait", True)
+        await q.answer("» 𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙸𝚗𝚏𝚘 𝙰𝚗𝚍 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
         to_del = True
         _id = anime
         name = _id 
         anime_info, picture = get_anime_info(name)
 
         if not anime_info:
-            anime_info = "404: No information found"
+            anime_info = "» 𝚃𝚘𝚘 𝙼𝚊𝚗𝚢 𝚄𝚜𝚎𝚛𝚜 𝙰𝚛𝚎 𝚄𝚜𝚒𝚗𝚐 𝙼𝚎, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚃𝚛𝚢 𝙰𝚐𝚊𝚒𝚗 𝙸𝚗 𝟻 𝙼𝚒𝚗𝚞𝚝𝚎𝚜."
             picture = NO_RES_PIC
             to_del = False
             kb = None
@@ -123,7 +123,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 to_sleep = int(picture.headers["Retry-After"])
             except:
                 to_sleep = 30
-            await q.answer(f"Too many requests: Please wait for {to_sleep} seconds")
+            await q.answer(f"ᴛᴏᴏ ᴍᴀɴʏ ʀᴇǫᴜᴇsᴛs: ᴘʟᴇᴀsᴇ ᴡᴀɪᴛ ғᴏʀ {to_sleep} sᴇᴄᴏɴᴅs")
             LOGGER.info(f"Too many requests: Please wait for {to_sleep} seconds")
             await asyncio.sleep(to_sleep)
             return
@@ -147,7 +147,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         name = _id
         _id = get_anime_results(name, top=True)
         Name = _id.replace('-', ' ').capitalize()
-        txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {epnumber}"
+        txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {epnumber}"
         links = get_download_stream_links(_id, epnumber, dub)
         kb = await genrate_stream_kb(name, page, links)
 
@@ -164,13 +164,13 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             epnumber = episode.rsplit("-",1)[-1]
             _id = get_anime_results(name, top=True)
             Name = _id.replace('-', ' ').capitalize()
-            txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
+            txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
             page = int(q.message.caption.split("\n")
                        [-1].split("-")[-1].strip().split("/")[0].strip())
             is_dub = is_dub_available(_id, epnumber)
             if is_dub:
                 kb = await sub_or_dub_kb(name, page, epnumber)
-                txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
+                txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
             links = get_download_stream_links(_id, epnumber)
@@ -184,7 +184,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             _id, page = ep.split("_", 1)
             name = get_anime_results(_id, top=True)
             total_ep = get_last_ep(name)
-            await q.answer(f"» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer(f"» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
             kb = await genrate_ep_kb(_id, total_ep, int(page))
             txt = ep_txt.format(ep=total_ep, p=page)
 
@@ -200,7 +200,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         anime_info, picture = get_anime_info(name)
         to_del = True
         if not anime_info:
-            anime_info = "404: No information found"
+            anime_info = "» 𝚃𝚘𝚘 𝙼𝚊𝚗𝚢 𝚄𝚜𝚎𝚛𝚜 𝙰𝚛𝚎 𝚄𝚜𝚒𝚗𝚐 𝙼𝚎, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚃𝚛𝚢 𝙰𝚐𝚊𝚒𝚗 𝙸𝚗 𝟻 𝙼𝚒𝚗𝚞𝚝𝚎𝚜."
             to_del = False
             picture = NO_RES_PIC
             kb = None
@@ -241,7 +241,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 await q.answer("» 𝗡𝗼 𝗖𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 𝗙𝗼𝘂𝗻𝗱!!!")
                 return
             kb = await desc_back(_id, True)
-            char = f"» List of Characters In Anime - {characters['anime_name']}:\n"
+            char = f"» List of Characters In Anime - <b>{characters['anime_name']}:\n</b>"
             for i in range(1, len(characters)):
                 char += f"»{characters[i]['name']} `{characters[i]['role']}`\n"
             
@@ -250,7 +250,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
         else:
             _id = get_anime_results(name, top = True)
-            await q.answer("Generating ep kb. Please wait...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:
                 last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())
