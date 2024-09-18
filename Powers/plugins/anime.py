@@ -94,7 +94,7 @@ async def search_anime_for_me(_, m: Message):
     total_pages = results[1]["totalPage"]
 
     txt = anime_res_txt.format(q=query, p=1, tp=total_pages)
-    to_del = await to_del.edit_text("» 𝙵𝚘𝚞𝚗𝚍 𝚂𝚘𝚖𝚎 𝚁𝚎𝚜𝚞𝚕𝚝𝚜 - 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
+    to_del = await to_del.edit_text("» 𝙵𝚘𝚞𝚗𝚍 𝚂𝚘𝚖𝚎 𝚁𝚎𝚜𝚞𝚕𝚝𝚜 - 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
     kb = await get_search_res_kb(results)
     
     await to_del.delete()
