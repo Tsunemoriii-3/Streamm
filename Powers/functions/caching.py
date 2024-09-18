@@ -10,6 +10,10 @@ class CACHE:
 
     results = dict() #{query: {page: results}}
 
+    results_2 = dict()
+
     ep_kb = TTLCache(maxsize=10000, ttl=(60 * 10), timer=perf_counter) #{ani_id: {page: ikm}}
 
     ani_chars = TTLCache(maxsize=10000, ttl=(60 * 10), timer=perf_counter) #{query: char}
+
+    ani_list_id = dict()

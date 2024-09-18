@@ -81,6 +81,9 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         if bool(re.match(r"^(prev|next)", splited[0])):
             query = int(query)
             anime_found = get_anime_results(query, page)
+            if anime_found == 429:
+                await q.answer("Traffic is high wait for few minutes then try again", True)
+                return
             query = (q.message.text or q.message.caption).split("\n")[0].split(":")[-1].strip()
             txt = anime_res_txt.format(q=query, p=page, tp=anime_found[1]["totalPage"])
             await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
@@ -121,6 +124,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             except:
                 to_sleep = 30
             await q.answer(f"Too many requests: Please wait for {to_sleep} seconds")
+            LOGGER.info(f"Too many requests: Please wait for {to_sleep} seconds")
             await asyncio.sleep(to_sleep)
             return
         else:
@@ -166,7 +170,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             is_dub = is_dub_available(_id, epnumber)
             if is_dub:
                 kb = await sub_or_dub_kb(name, page, epnumber)
-                txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
+                txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
             links = get_download_stream_links(_id, epnumber)
@@ -246,7 +250,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
         else:
             _id = get_anime_results(name, top = True)
-            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer("Generating ep kb. Please wait...", True)
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:
                 last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())

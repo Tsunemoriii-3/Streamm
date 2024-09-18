@@ -14,6 +14,8 @@ ani_info = CACHE.ani_info
 ani_chars = CACHE.ani_chars
 query_id = CACHE.query_id
 RESULTS = CACHE.results
+RESULTS2 = CACHE.results_2
+ani_id = CACHE.ani_list_id
 
 HEADERS = (
     {
@@ -198,17 +200,25 @@ async def genrate_deep_link(c, data:str):
     return f"tg://resolve?domain={c.me.username}&start=a_{data}"
 
 
-def get_anime_results(query, page: int = 1, with_img: bool = False, top: bool = False):
-    query, _id = get_anime_info(query, True)
+def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool = False):
     global RESULTS
+    global RESULTS2
+    if RESULTS2.get(search):
+        query = RESULTS2[search]["q"]
+        _id = RESULTS2[search]["id"]
+    else:
+        query, _id = get_anime_info(search, True)
+        RESULTS2[search] = {"q": query, "id": _id}
     if not query:
         return {}
+    if query == 429:
+        return 429
     name = _id
     query = quote(query)
     to_return = {}
     xpath = "//*[@id='wrapper_bg']/section/section[1]/div/div[2]/ul"
     
-    if RESULTS and RESULTS.get(query) and RESULTS[query].get(page):
+    if RESULTS and RESULTS.get(query) and RESULTS[query].get(page) and not top:
         return RESULTS[query][page]
 
     if not page or page == 1:
@@ -396,9 +406,10 @@ def get_last_ep(anime_id):
 
 def get_anilist_id(name):
     url = "https://graphql.anilist.co"
-    global query_id
-    if query_id.get(name):
-        return query_id[name]
+    global ani_id
+    if ani_id.get(name):
+        print(ani_id[name])
+        return ani_id[name]
 
     variables = {"search": name}
     search_query = """query ($id: Int,$search: String) {
@@ -415,7 +426,7 @@ def get_anilist_id(name):
     data = response.json()
     try:
         data = data["data"]["Page"]["media"][0]
-        query_id[name] = data["id"]
+        ani_id[name] = data["id"]
         return data["id"]
     except:
         return
@@ -443,6 +454,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         _id = query_id.get(query)
         already = ani_info.get(_id, False)
         name = query
+    
     if already:
         if only_name:
             return name, _id
@@ -458,7 +470,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     response = httpx.post(url, json={"query": search_query, "variables": variables}, headers=HEADERS)
 
     if response.status_code == 429:
-        return 429, response.json()
+        return 429, response
     elif response.status_code != 200:
         LOGGER.info(f"Failed to fetch anime info for query: {query} returned status code: {response.status_code}\n{response.json()}")
         return None, None
