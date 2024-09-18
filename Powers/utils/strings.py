@@ -12,7 +12,8 @@ start_msg = """
 help_msg = """
 <i><b>» Just Send Me The Name of Any Anime, And I Will Give You The Results.
 
-**Available Commands**
+**» <u>Available Commands</u>**
+
 • /ongoing: Top 10 Trending Ongoing Anime.
 • /top: Top 10 All Time Popular Anime.
 • /character [character name]: Search For The Given Character.
@@ -43,7 +44,7 @@ ani_info_string = """
 <b>[🇺🇲]</b> <i><b>{english}</b></i>
 <b>[{flag}]</b> <i><b>{local}</b></i>
 
-<b><i>» <u>𝖲𝖼𝗈𝗋𝖾</u> ~ {score}
+<b><i>» <u>Score</u> ~ {score}
 » <u>Source</u> ~ {source}
 » <u>Type</u> ~ {mtype}
 » <u>Episodes</u> ~ {episodes}
