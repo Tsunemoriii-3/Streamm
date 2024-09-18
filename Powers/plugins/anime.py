@@ -16,7 +16,7 @@ async def retrieve_char_info(_, m: Message):
         await m.reply_text("» 𝗘𝘅𝗮𝗺𝗽𝗹𝗲 - `/character Horikita`")
         return
 
-    to_del = await m.reply_text("» 𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝚃𝚑𝚎 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 - 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...")
+    to_del = await m.reply_text("» 𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝚃𝚑𝚎 𝙲𝚑𝚊𝚛𝚊𝚌𝚝𝚎𝚛 - 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
     character = m.text.split(None, 1)[1]
     txt, picture = get_character_info(character)
     if not txt:
