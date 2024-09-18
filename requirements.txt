@@ -5,3 +5,4 @@ git+https://github.com/KurimuzonAkuma/pyrogram.git@v2.1.23
 httpx
 lxml
 pymongo
+beautifulsoup4
