@@ -83,13 +83,13 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             anime_found = get_anime_results(query, page)
             query = (q.message.text or q.message.caption).split("\n")[0].split(":")[-1].strip()
             txt = anime_res_txt.format(q=query, p=page, tp=anime_found[1]["totalPage"])
-            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...\n\n⚠️ 𝗗𝗼𝗻'𝘁 𝗖𝗹𝗶𝗰𝗸 𝗢𝗻 𝗡𝗲𝘅𝘁 𝗔𝗴𝗮𝗶𝗻 ⚠️", True)
             kb = await get_search_res_kb(anime_found, page)
             await q.edit_message_caption(txt, reply_markup=kb)
             return
         else:
             ani_id = query
-            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...", True)
+            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...\n\n⚠️ 𝗗𝗼𝗻'𝘁 𝗖𝗹𝗶𝗰𝗸 𝗢𝗻 𝗡𝗲𝘅𝘁 𝗔𝗴𝗮𝗶𝗻 ⚠️", True)
             last_EP = int(q.message.caption.split("\n")[2].split("-")[-1].strip())
             kb = await genrate_ep_kb(ani_id, last_EP, page)
             int_part, float_part = str(last_EP / 25).split(".")
@@ -246,7 +246,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
         else:
             _id = get_anime_results(name, top = True)
-            await q.answer("Generating ep kb. Please wait...", True)
+            await q.answer("» 𝙶𝚎𝚝𝚝𝚒𝚗𝚐 𝚎𝙿, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚆𝚊𝚒𝚝...\n\n⚠️ 𝗗𝗼𝗻'𝘁 𝗖𝗹𝗶𝗰𝗸 𝗢𝗻 𝗡𝗲𝘅𝘁 𝗔𝗴𝗮𝗶𝗻 ⚠️"", True)
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:
                 last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())
