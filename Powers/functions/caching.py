@@ -10,7 +10,9 @@ class CACHE:
 
     results = dict() #{query: {page: results}}
 
-    results_2 = dict()
+    results_2 = dict() # search and see how it stores
+ 
+    search_res_kb = dict() # good luck
 
     ep_kb = TTLCache(maxsize=10000, ttl=(60 * 10), timer=perf_counter) #{ani_id: {page: ikm}}
 

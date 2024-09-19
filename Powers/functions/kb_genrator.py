@@ -11,6 +11,7 @@ from Powers.utils.en_de_crypt import encode_decode
 
 from .anime_func import *
 
+res_kb = CACHE.search_res_kb
 ep_kb = CACHE.ep_kb
 
 async def orgainzed_kb(kbs: List[IKB], rows: int = 2) -> List[List[IKB]]:
@@ -123,6 +124,11 @@ async def get_search_res_kb(kwargs, page: int = 1):
     kb = []
     total_page = kwargs[1]["totalPage"]
 
+    query = kwargs[1].get("query")
+
+    if query and res_kb.get(query) and res_kb[query].get(page):
+        return res_kb[query][page]
+
     for i in range(1, len(kwargs)+1):
         anime_name = kwargs[i]["title"]
         if anime_name.endswith("(Dub)"):
@@ -132,7 +138,6 @@ async def get_search_res_kb(kwargs, page: int = 1):
             continue
         kb.append([IKB(anime_name, f"aid:{en_anime_id}")])
 
-    query = kwargs[1].get("query")
     encoded_id = query
     if total_page == 1:
         kb.append(
@@ -163,7 +168,14 @@ async def get_search_res_kb(kwargs, page: int = 1):
             ]
         )
 
-    return IKM(kb)
+    _kb = IKM(kb)
+
+    if query and res_kb.get(query):
+        res_kb[query][page] = _kb
+    else:
+        res_kb[query] = {page : _kb}
+
+    return _kb
 
 
 async def ani_info_kb(anime_id):
