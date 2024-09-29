@@ -16,6 +16,7 @@ from Powers.utils import *
 
 from . import *
 
+from .start import u_pref
 
 @DENDENMUSHI.on_callback_query()
 async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
@@ -137,8 +138,10 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         return
 
     elif bool(re.search(r"^(sub|dub):.*", data)):
+        global u_pref
         to_do, page, epnumber = data.split("_")
         to_do, _id = to_do.split(":")
+        u_pref[q.from_user.id] = to_do
         if to_do == "sub":
             dub = False
         else:
@@ -167,14 +170,22 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
             page = int(q.message.caption.split("\n")
                        [-1].split("-")[-1].strip().split("/")[0].strip())
-            is_dub = is_dub_available(_id, epnumber)
-            if is_dub:
+            pref = u_pref.get(q.from_user.id)
+            if pref and pref in ["ask", "sub"]:
+                is_dub = is_dub_available(_id, epnumber)
+            else:
+                is_dub = False
+            if is_dub and pref == "ask":
                 kb = await sub_or_dub_kb(name, page, epnumber)
                 txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
-            links = get_download_stream_links(_id, epnumber)
-            kb = await genrate_stream_kb(name, page, links)
+            elif is_dub and pref == "sub":
+                links = get_download_stream_links(_id, epnumber, True)
+                kb = await genrate_stream_kb(name, page, links)
+            else:
+                links = get_download_stream_links(_id, epnumber)
+                kb = await genrate_stream_kb(name, page, links)
 
             msg = await q.edit_message_caption(txt, reply_markup=kb)
             tim = str(get_del_time())

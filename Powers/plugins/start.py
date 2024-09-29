@@ -4,10 +4,12 @@ import os
 from Powers.database.auto_del_mess import auto_del_insert
 
 from Powers.config import NO_RES_PIC
+from Powers.functions.caching import CACHE
 from Powers.streamer import DENDENMUSHI
 
 from . import *
 
+u_pref = CACHE.user_pref
 
 @DENDENMUSHI.on_message(filters.command("start"))
 @is_joined
@@ -22,6 +24,8 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
             else:
                 anime_id = splited[1]
         elif data.startswith("a_"):
+            global u_pref
+            u_pref[m.from_user.id] = "ask"
             anime_data = data.split("_")
             if len(anime_data) == 2:
                 _id = anime_data[1]

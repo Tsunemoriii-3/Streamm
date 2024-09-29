@@ -19,3 +19,5 @@ class CACHE:
     ani_chars = TTLCache(maxsize=10000, ttl=(60 * 10), timer=perf_counter) #{query: char}
 
     ani_list_id = dict()
+
+    user_pref = dict() #{user_id : ask/sub/dub}

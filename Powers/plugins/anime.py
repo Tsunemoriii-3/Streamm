@@ -8,6 +8,8 @@ from Powers.functions import *
 from Powers.streamer import DENDENMUSHI
 from Powers.utils import *
 
+from .start import u_pref
+
 
 @DENDENMUSHI.on_message(filters.command("character"))
 @is_joined
@@ -37,7 +39,8 @@ async def retrieve_anime(_, m: Message):
     if len(m.command) <= 1:
         await m.reply_text("» 𝗘𝘅𝗮𝗺𝗽𝗹𝗲: `One Piece`")
         return
-
+    global u_pref
+    u_pref[m.from_user.id] = "ask"
     to_del = await m.reply_text("» 𝗝𝘂𝘀𝘁 𝗦𝗲𝗻𝗱 𝗧𝗵𝗲 𝗡𝗮𝗺𝗲 𝗼𝗳 𝗧𝗵𝗲 𝗔𝗻𝗶𝗺𝗲.")
     query = m.text.split(None, 1)[1]
     results = get_anime_results(query)
@@ -67,6 +70,9 @@ async def retrieve_totire_anime(_, m: Message):
 
     kb = await genrate_top_anime_kb(results)
 
+    global u_pref
+    u_pref[m.from_user.id] = "ask"
+
     await m.reply_photo(TRENDING, caption=txt, reply_markup=kb)
     return
 
@@ -75,7 +81,6 @@ async def retrieve_totire_anime(_, m: Message):
 async def search_anime_for_me(_, m: Message):
     query = m.text
     to_del = await m.reply_text(f"» 𝚂𝚎𝚊𝚛𝚌𝚑𝚒𝚗𝚐 𝙵𝚘𝚛 𝙰𝚗𝚒𝚖𝚎 - <b>{query}</b> | 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
-
     try:
         results = get_anime_results(query)
     except Exception as e:
@@ -90,6 +95,9 @@ async def search_anime_for_me(_, m: Message):
     elif results == 429:
         await to_del.edit_text("» 𝚃𝚘𝚘 𝙼𝚊𝚗𝚢 𝚄𝚜𝚎𝚛𝚜 𝙰𝚛𝚎 𝚄𝚜𝚒𝚗𝚐 𝙼𝚎, 𝙿𝚕𝚎𝚊𝚜𝚎 𝚃𝚛𝚢 𝙰𝚐𝚊𝚒𝚗 𝙸𝚗 𝟻 𝙼𝚒𝚗𝚞𝚝𝚎𝚜.")
         return
+    
+    global u_pref
+    u_pref[m.from_user.id] = "ask"
         
     total_pages = results[1]["totalPage"]
 
