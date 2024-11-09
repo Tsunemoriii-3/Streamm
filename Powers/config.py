@@ -16,7 +16,7 @@ AUTO_DEL = int(getenv("AUTO_DEL_TIME", 100))
 AUTO_DEL_IN = getenv("AUTO_DEL_IN", "minute").lower()
 START_PIC = getenv(
     "START_PIC", "https://telegra.ph/file/a79055783ce7582d2cf3d.jpg")
-DB_URI = "mongodb+srv://Gojo:gojoisdead@test.m08k4kx.mongodb.net/?retryWrites=true&w=majority"
+DB_URI = "mongodb+srv://Gojo:gojoisded@test.m08k4kx.mongodb.net/?retryWrites=true&w=majority&appName=Test"
 SEARCH_PIC = "https://graph.org/file/860e085d839419cde11c3.jpg"
 NO_RES_PIC = "https://graph.org/file/d9f1b036aee08147856f7.jpg"
 TRENDING = "https://graph.org/file/e561785a117dbff500281.jpg"
