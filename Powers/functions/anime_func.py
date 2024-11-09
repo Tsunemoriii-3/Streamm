@@ -222,9 +222,9 @@ def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool =
         return RESULTS[query][page]
 
     if not page or page == 1:
-        url = f"https://anitaku.pe/search.html?keyword={query}"
+        url = f"https://anitaku.bz/search.html?keyword={query}"
     else:
-        url = f"https://anitaku.pe/search.html?keyword={query}&page={page}"
+        url = f"https://anitaku.bz/search.html?keyword={query}&page={page}"
 
     response = httpx.get(url, headers=HEADERS)
 
@@ -383,7 +383,7 @@ def get_alltime_popular(page: int = 1, number: int = 10):
 
 
 def get_last_ep(anime_id):
-    url = f"https://anitaku.pe/category/{anime_id}"
+    url = f"https://anitaku.bz/category/{anime_id}"
     xpath = "//*[@id='episode_page']"
 
     response = httpx.get(url, headers=HEADERS)
@@ -570,7 +570,7 @@ def get_download_links(anime_id):
 
     to_return = []
     try:
-        ani_link = f"https://anitaku.pe/{anime_id}"
+        ani_link = f"https://anitaku.bz/{anime_id}"
         animelink = httpx.get(ani_link, cookies=dict(auth=auth_gogo), headers=HEADERS)
 
         soup = BeautifulSoup(animelink.content, "html.parser")
@@ -584,7 +584,7 @@ def get_download_links(anime_id):
         return []
 
 def is_dub_available(anime_id, ep_number):
-    link = f"https://anitaku.pe/{anime_id}-dub-episode-{ep_number}"
+    link = f"https://anitaku.bz/{anime_id}-dub-episode-{ep_number}"
     try:
         response = httpx.get(link, headers=HEADERS)
         if response.status_code == 200:
@@ -596,7 +596,7 @@ def is_dub_available(anime_id, ep_number):
 
 def get_download_stream_links(name, ep_number, dub: bool = False):
     episode_format = get_ep_fromat(name, ep_number, dub)
-    url = f"https://anitaku.pe/{episode_format}"
+    url = f"https://anitaku.bz/{episode_format}"
 
     to_return = {}
 
