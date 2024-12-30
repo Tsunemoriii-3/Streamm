@@ -5,7 +5,7 @@ from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
 from Powers import LOGGER
-from Powers.database.force_sub_db import FSUBS
+from Powers.database.force_sub_db import FSUBS, FSUB_LINK
 from Powers.functions.caching import CACHE
 from Powers.utils.en_de_crypt import encode_decode
 
@@ -40,9 +40,25 @@ async def get_fsub_kb(c: Client, data: str = "start") -> List[IKM]:
                 )
             else:
                 invite_link = await c.create_chat_invite_link(channel)
+            
+            kb_name = f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {i+1}⚡️"
+            if name := j.get("btn_name", False):
+                kb_name = name
 
             fsub_join_links.append(
-                IKB(f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {i+1}⚡️", url=invite_link.invite_link)
+                IKB(kb_name, url=invite_link.invite_link)
+            )
+
+        all_links = FSUB_LINK().get_all()
+
+        for i in all_links:
+            if name:=i.get("btn_name", None):
+                btn_name = name
+            else:
+                btn_name = "⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹⚡️"
+                
+            fsub_join_links.append(
+                IKB(btn_name, url=i["link"])
             )
 
         orgainzed = await orgainzed_kb(fsub_join_links)
