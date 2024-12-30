@@ -49,7 +49,7 @@ async def auto_ddel_postss(app: Client):
         tim = till_date(i["datee"])
         if tim <= datetime.now():
             try:
-                await app.delete_messages(i["chat_id"],i["mess_id"])
+                await app.delete_messages(int(i["chat_id"]),int(i["mess_id"]))
                 auto_del_delete(i["datee"], i["chat_id"], i["mess_id"])
                 LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
             except Exception as e:

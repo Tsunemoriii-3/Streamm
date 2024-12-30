@@ -75,12 +75,15 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
     else:
         try:
             chat_id = int(m.command[1])
-            f_type = (
-                m.command[2].lower()
-                if m.command[2] in ["audo", "direct", "request"]
-                else "auto"
-            )
-            btn_name = m.text.split(None, 3)[-1]
+            
+            if type_:=m.command[2] in ["auto", "direct", "request"]:
+                f_type = type_.lower()
+                split_ = 3
+            else:
+                f_type = "auto"
+                split_ = 2
+
+            btn_name = m.text.split(None, split_)[-1]
         except ValueError:
             await m.reply_text("Channel id should be integer")
             return

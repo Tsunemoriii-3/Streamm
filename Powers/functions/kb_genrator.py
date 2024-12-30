@@ -22,7 +22,7 @@ async def iterate_dev_caption(page: int = 1):
 
     else:
         lines = caption.splitlines(True)
-        total = lines // 10
+        total = len(lines) // 10
         start = 10 * (page - 1)
         end = 10 * page
 
