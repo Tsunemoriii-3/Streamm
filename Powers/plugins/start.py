@@ -1,9 +1,10 @@
+import os
+
 from pyrogram import filters
 from pyrogram.types import Message
-import os
-from Powers.database.auto_del_mess import auto_del_insert
 
 from Powers.config import NO_RES_PIC
+from Powers.database.auto_del_mess import auto_del_insert
 from Powers.functions.caching import CACHE
 from Powers.streamer import DENDENMUSHI
 

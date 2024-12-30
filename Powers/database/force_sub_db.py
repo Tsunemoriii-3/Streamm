@@ -27,13 +27,13 @@ class FSUBS():
                 return True
 
     def update_fsub_type(self, channel_id, type_):
-        self.db.find_one_and_update({"c_id": channel_id}, {"type": type_})
+        return self.db.find_one_and_update({"c_id": channel_id}, {"type": type_})
 
     def update_fsub_btn(self, channel_id, name):
-        self.db.find_one_and_replace({"c_id": channel_id}, {"btn_name": name})
+        return self.db.find_one_and_replace({"c_id": channel_id}, {"$set": {"btn_name": name}})
 
     def remove_fsub(self, channel_id):
-        self.db.find_one_and_delete({"c_id": channel_id})
+        return self.db.find_one_and_delete({"c_id": channel_id})
 
     def get_fsubs(self, type_="all"):
         """
@@ -68,17 +68,18 @@ class FSUB_LINK():
     def __init__(self) -> None:
         self.db = DB_BASE["linksub"]
 
-    def insert_link(self, link: str, btn_name):
+    def insert_link(self, link: str, btn_name = None):
         curr = self.db.find_one({"link": link})
         if not curr:
             self.db.insert_one({"link": link, "btn_name": btn_name})
+            return True
         return
 
     def delete_link(self, link):
-        self.db.find_one_and_delete({"link": link})
+        return self.db.find_one_and_delete({"link": link})
 
     def get_all(self):
         return list(self.db.find({}))
 
     def update_btn(self, link, name):
-        self.db.find_one_and_update({"link": link}, {"btn_name": name})
+        return self.db.find_one_and_update({"link": link}, {"btn_name": name})

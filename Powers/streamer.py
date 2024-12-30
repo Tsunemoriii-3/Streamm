@@ -1,4 +1,6 @@
+import sys
 from platform import python_version
+from traceback import format_exc
 
 from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pyrogram import Client, __version__
@@ -24,7 +26,13 @@ class DENDENMUSHI(Client):
         LOGGER.info("Starting the bot...")
         await super().start()
         await load_support_users()
-        await load_channels()
+        try:
+            await load_channels(self)
+        except Exception as e:
+            LOGGER.error(e)
+            LOGGER.error(format_exc())
+            LOGGER.info("Shutting down bot...")
+            sys.exit(1)
         LOGGER.info("Adding scheduler to auto delete post...")
         schedule.add_job(auto_ddel_postss,'interval', [self], seconds = 100)
         LOGGER.info("Scheduler added starting the scheduler")

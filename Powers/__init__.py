@@ -5,7 +5,7 @@ from logging import (INFO, WARNING, FileHandler, StreamHandler, basicConfig,
 from os import mkdir, path
 from sys import stdout
 
-from pyrogram import __version__
+from pyrogram import Client, __version__
 
 from Powers.config import FSUB_CHANNEL, OWNER_ID, REQ_FSUB, SUDO
 
@@ -38,12 +38,14 @@ from Powers.database.force_sub_db import FSUBS
 from Powers.database.sudo_db import SUPPORTS
 
 
-async def load_channels():
+async def load_channels(c: Client):
     fsubss = FSUBS()
     for i in FSUB_CHANNEL:
-        fsubss.inser_fsub(int(i), "direct")
+        x = await c.get_chat(int(i))
+        fsubss.inser_fsub(int(i), "direct", x.title)
     for i in REQ_FSUB:
-        fsubss.inser_fsub(int(i), "request")
+        x = await c.get_chat(int(i))
+        fsubss.inser_fsub(int(i), "request", x.title)
 
 
 async def load_support_users():

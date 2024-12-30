@@ -1,8 +1,10 @@
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus as CMS
+from pyrogram.enums import MessageEntityType as MET
 from pyrogram.types import Message
 
 from Powers import LOGFILE, LOGGER
+from Powers.database.force_sub_db import FSUB_LINK, FSUBS
 from Powers.streamer import DENDENMUSHI
 
 from . import *
@@ -50,14 +52,23 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
         await m.reply_text("Do /devcmd to see how to use this command")
         return
 
-    if len(m.command) == 2:
+    elif len(m.command) == 2:
         try:
             chat_id = int(m.command[1])
             f_type = "auto"
+            btn_name = None
         except ValueError:
             await m.reply_text("Channel id should be integer")
             return
 
+    elif len(m.command) == 3:
+        try:
+            chat_id = int(m.command[1])
+            f_type = "auto"
+            btn_name = m.text.split(None, 2)[-1]
+        except ValueError:
+            await m.reply_text("Channel id should be integer")
+            return
     else:
         try:
             chat_id = int(m.command[1])
@@ -66,6 +77,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
                 if m.command[2] in ["audo", "direct", "request"]
                 else "auto"
             )
+            btn_name = m.text.split(None, 3)[-1]
         except ValueError:
             await m.reply_text("Channel id should be integer")
             return
@@ -93,7 +105,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
         return
 
     fsub = FSUBS()
-    fsub.inser_fsub(chat_id, f_type)
+    fsub.inser_fsub(chat_id, f_type, btn_name)
 
     await m.reply_text(f"Added {chat_id} to force subscribe with {f_type} type")
     return
@@ -144,7 +156,30 @@ async def change_fsub_type(c: DENDENMUSHI, m: Message):
     FSUBS().update_fsub_type(chat_id, f_type)
 
     await m.reply_text(f"Changed force sub type from {type_} to {f_type}")
+    return
 
+@DENDENMUSHI.on_message(filters.command("ufname") & auth_users)
+async def change_cur_fbtn_name(_, m: Message):
+    if len(m.command) in [1, 2]:
+        await m.reply_text("Useage\n/ufname [channel id] [new btn name]")
+        return
+    
+    try:
+        _id = int(m.command[1])
+        btn_ = m.text.split(None, 1)[-1]
+    except ValueError:
+        await m.reply_text("Channel id should be integer")
+        return
+
+    old = FSUBS().update_fsub_btn(_id, btn_)
+
+    if not old.get("btn_name", False):
+        btn = None
+    else:
+        btn = old['btn_name']
+    if not old:
+        await m.reply_text("No matching entry found with given channel id")
+    await m.reply_text(f"Channged button name for channel id: {_id} from {btn} to {btn_}")
 
 @DENDENMUSHI.on_message(filters.command("getfsubs") & auth_users)
 async def get_all_fsub_channels(c: DENDENMUSHI, m: Message):
@@ -154,7 +189,7 @@ async def get_all_fsub_channels(c: DENDENMUSHI, m: Message):
         chat_id = one["c_id"]
         try:
             chat = await c.get_chat(chat_id)
-            txt += f"Chat name: {chat.title}:\n\tChat id: `{chat.id}`\n\tFsub type: {str(one['type']).capitalize()}\n\n"
+            txt += f"Chat name: {chat.title}:\n\tChat id: `{chat.id}`\n\tFsub type: {str(one['type']).capitalize()}\n\tButton name: {one['btn_name'] if one.get('btn_name', None) else 'Not set'}\n\n"
         except:
             txt += f"Chat id: `{chat.id}`\n\tFsub type: {str(one['type']).capitalize()}\n\n"
     await m.reply_text(txt)
@@ -221,5 +256,100 @@ async def what_is_the_curr_stats(c: DENDENMUSHI, m: Message):
     users, chats = PEERS().count_peers()
 
     txt = f"**Current numbers of users and chats in my database are:**\nChats: {chats}\nUsers: {users}"
+    await m.reply_text(txt)
+    return
+
+async def validate_link_return(m: Message):
+    msg_entitites = m.entities
+
+    if not msg_entitites:
+        return
+    else:
+        for entity in msg_entitites:
+            if entity.type == MET.URL:
+                return m.text[entity.offset : (entity.offset +  entity.length)]
+
+    return
+
+@DENDENMUSHI.on_message(filters.command("addlink") & auth_users)
+async def insert_this_link(_, m: Message):
+    if len(m.command) == 1:
+        await m.reply_text("Usage /addlink [link] [button name]")
+        return
+    
+    elif len(m.command) == 2:
+        
+        link = await validate_link_return(m)
+
+        if not link:
+            await m.reply_text("No link found in the message try again")
+            return
+
+        if FSUB_LINK().insert_link(link):
+            await m.reply_text("Looks like you forgot to give me button name setting it to none by default. You can update the button name later using `/ulname` command")
+        else:
+            await m.reply_text(f"An entity already exist with the given url. You can change the button name for it using `/ulname {link} [btn name]`")
+            
+    else:
+        name = m.text.split(None, 2)[-1]
+        link = await validate_link_return(m)
+
+        if not link:
+            await m.reply_text("No link found in the message try again")
+            return
+
+        if FSUB_LINK().insert_link(link, name):
+            await m.reply_text(f"Successfully inserted the link ({link}) with name ({name}) in the database")
+
+        return
+
+
+@DENDENMUSHI.on_message(filters.command("ulname") & auth_users)
+async def update_link_btn_name(_, m: Message):
+    if len(m.command) in [1, 2]:
+        await m.reply_text("Usage:\n`/ulname [link] [btn name]")
+        return
+
+    link = await validate_link_return(m)
+    if not link:
+        await m.reply_text("Give me a proper link\nThe given link is not valid")
+        return
+    
+    name = m.text.split(None, 2)[-1]
+
+    up = FSUB_LINK().update_btn(link, name)
+    if not up:
+        await m.reply_text("No matching entry found in database with given link")
+        return
+    
+    await m.reply_text(f"Successfully updated values in database:\nLink used: {link}\nOld name: {up['btn_name']}\nNew name: {name}")
+    return
+
+@DENDENMUSHI.on_message(filters.command("rmlink") & auth_users)
+async def remove_link_entity(_, m: Message):
+    link = await validate_link_return(m)
+    if not link:
+        await m.reply_text("Give me a proper link\nThe given link is not valid")
+        return
+    
+    was_ = FSUB_LINK().delete_link(link)
+    if not was_:
+        await m.reply_text("No entity found with given link")
+        return
+    
+    await m.reply_text(f"Deleted the link from database\nButton name was: {was_['btn_name']}")
+    return
+
+@DENDENMUSHI.on_message(filters.command("getlinks") & auth_users)
+async def get_all_linksss(_, m: Message):
+    links = FSUB_LINK().get_all()
+
+    if not links:
+        return await m.reply_text("No link found")
+    
+    txt = "Here are all the links in my database:\n"
+    for link in links:
+        txt += f"Link: `{link['link']}\n\tButton name: {link['btn_name']}\n\n"
+    
     await m.reply_text(txt)
     return

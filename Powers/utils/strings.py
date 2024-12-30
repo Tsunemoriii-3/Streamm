@@ -26,9 +26,14 @@ dev_msg = """
 • /rmsudo [id of the user]: Will remove the sudoer
 
 **SUDO COMMANDS**
-• /addfsub [channel id] [type]: Add channel in force subscribe. Default to auto
+• /addfsub [channel id] [type] [btn_name]: Add channel in force subscribe. Default to auto
+• /ufname [channel id] [new btn_name]: Update the button name of the channel id.
 • /rmfsub [channel id]: Remove channels from force subscribe
 • /changetype [channel id] [newtype]: Replace the type of join 
+• /addlink [link] [btn name]: Add a link to the force sub kb.
+• /ulname [link] [new btn name]: Update the name of the button for the given link.
+• /getlinks : Give all the current links
+• /rmlink [link]: Remove the link from database
 • /getfsubs: Return all the fsubs channel with their types
 • /logs: Return logs
 • /stats: Current stats of the bot
