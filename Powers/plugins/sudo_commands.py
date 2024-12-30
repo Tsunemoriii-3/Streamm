@@ -66,7 +66,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
             chat_id = int(m.command[1])
             f_type = "auto"
             btn_name = m.text.split(None, 2)[-1]
-            if name := btn_name.lower() in ["audo", "direct", "request"]:
+            if name := btn_name.lower() in ["auto", "direct", "request"]:
                 f_type = name
                 btn_name = False
         except ValueError:
