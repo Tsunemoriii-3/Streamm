@@ -95,8 +95,7 @@ async def get_normal_user_help(c: DENDENMUSHI, m: Message):
 
 @DENDENMUSHI.on_message(filters.command(["devcmd", "devhelp"]) & auth_users)
 async def get_dev_user_help(_, m: Message):
-    kb = await help_menu_kb()
-    txt = dev_msg
+    txt, kb = await iterate_dev_caption()
     try:
         await m.reply_photo(START_PIC, caption=txt, reply_markup=kb)
     except Exception as e:

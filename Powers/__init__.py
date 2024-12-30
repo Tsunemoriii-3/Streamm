@@ -41,7 +41,7 @@ from Powers.database.sudo_db import SUPPORTS
 async def load_channels(c: Client):
     fsubss = FSUBS()
     for i in FSUB_CHANNEL:
-        x = await c.get_chat(int(i))
+        x = await c.get_chat(int(i), False)
         fsubss.inser_fsub(int(i), "direct", x.title)
     for i in REQ_FSUB:
         x = await c.get_chat(int(i))

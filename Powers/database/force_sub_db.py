@@ -27,10 +27,10 @@ class FSUBS():
                 return True
 
     def update_fsub_type(self, channel_id, type_):
-        return self.db.find_one_and_update({"c_id": channel_id}, {"type": type_})
+        return self.db.find_one_and_update({"c_id": channel_id}, {"$set": {"type": type_}})
 
     def update_fsub_btn(self, channel_id, name):
-        return self.db.find_one_and_replace({"c_id": channel_id}, {"$set": {"btn_name": name}})
+        return self.db.find_one_and_update({"c_id": channel_id}, {"$set": {"btn_name": name}})
 
     def remove_fsub(self, channel_id):
         return self.db.find_one_and_delete({"c_id": channel_id})
@@ -82,4 +82,4 @@ class FSUB_LINK():
         return list(self.db.find({}))
 
     def update_btn(self, link, name):
-        return self.db.find_one_and_update({"link": link}, {"btn_name": name})
+        return self.db.find_one_and_update({"link": link}, {"$set": {"btn_name": name}})

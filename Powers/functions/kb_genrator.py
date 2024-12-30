@@ -5,15 +5,64 @@ from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
 from Powers import LOGGER
-from Powers.database.force_sub_db import FSUBS, FSUB_LINK
+from Powers.database.force_sub_db import FSUB_LINK, FSUBS
 from Powers.functions.caching import CACHE
 from Powers.utils.en_de_crypt import encode_decode
+from Powers.utils.strings import dev_msg
 
 from .anime_func import *
 
 res_kb = CACHE.search_res_kb
 ep_kb = CACHE.ep_kb
 
+async def iterate_dev_caption(page: int = 1):
+    caption = dev_msg
+    if len(caption) <= 1024:
+        return caption, None
+
+    else:
+        lines = caption.splitlines(True)
+        total = lines // 10
+        start = 10 * (page - 1)
+        end = 10 * page
+
+        new = ""
+
+        if not start:
+            for line in caption[start : end]:
+                new += line
+            kb = [
+                [
+                    IKB("Next page ▶️", f"dev_{page+1}")
+                ]
+            ]
+        
+        elif page == total:
+            for line in caption[start:]:
+                new += line
+            kb = [
+                [
+                    IKB("◀️ Previous page", f"dev_{page-1}")
+                ]
+            ]
+        else:
+            for line in caption[start : end]:
+                new += line
+            kb = [
+                [
+                    IKB("Next page ▶️", f"dev_{page+1}"),
+                    IKB("◀️ Previous page", f"dev_{page-1}")
+                ]
+            ]
+        
+        kb.append(
+            [
+                IKB("sᴇᴄʀᴇᴛ", "get_sudo_help"),
+                IKB("ʜᴏᴍᴇ", "start_menu")
+            ]
+        )
+        return new, IKM(kb)
+        
 async def orgainzed_kb(kbs: List[IKB], rows: int = 2) -> List[List[IKB]]:
     """
     kbs: List of inlinekeyboardbutton

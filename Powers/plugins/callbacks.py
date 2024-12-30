@@ -15,8 +15,8 @@ from Powers.streamer import DENDENMUSHI
 from Powers.utils import *
 
 from . import *
-
 from .start import u_pref
+
 
 @DENDENMUSHI.on_callback_query()
 async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
@@ -68,11 +68,16 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         if not is_auth:
             await q.answer("ʏᴏᴜ ᴀʀᴇ ɴᴏᴛ ᴀʟʟᴏᴡᴇᴅ, ᴄᴏɴᴛᴀᴄᴛ ᴀᴅᴍɪɴ.")
             return
-        kb = await help_menu_kb()
-        txt = dev_msg
+        txt, kb = await iterate_dev_caption()
         await q.edit_message_caption(txt, reply_markup=kb)
         return
 
+    elif bool(re.match(r"^dev_.*[0-9]$", data)):
+        page = data.split("_")[-1]
+        
+        txt, kb = await iterate_dev_caption(int(page))
+
+        await q.edit_message_caption(txt, reply_markup=kb)
     
     elif bool(re.match(r"^(prev|next|PREV|NEXT):.*_-?\d+$", data)):
         splited = data.split(":", 1)

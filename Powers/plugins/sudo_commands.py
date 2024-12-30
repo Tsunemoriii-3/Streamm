@@ -66,6 +66,9 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
             chat_id = int(m.command[1])
             f_type = "auto"
             btn_name = m.text.split(None, 2)[-1]
+            if name := btn_name.lower() in ["audo", "direct", "request"]:
+                f_type = name
+                btn_name = False
         except ValueError:
             await m.reply_text("Channel id should be integer")
             return
@@ -82,9 +85,21 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
             await m.reply_text("Channel id should be integer")
             return
 
+    chat = None
+
+    if not btn_name:
+        try:
+            chat = await c.get_chat(chat_id, False)
+            btn_name = chat.title
+        except Exception as e:
+            await m.reply_text(f"Make user I am admin in {chat_id}")
+            LOGGER.error(e)
+            return
+
     if f_type == "auto":
         try:
-            chat = await c.get_chat(chat_id)
+            if not chat:
+                chat = await c.get_chat(chat_id, False)
             if chat.username:
                 f_type = "direct"
             else:
