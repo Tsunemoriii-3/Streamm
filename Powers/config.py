@@ -10,8 +10,8 @@ BOT_TOKEN = "7066626001:AAHEUmbfZpVYceXZGQJ8QYJ9JR5l01ijOsY" # Same here
 SUDO = [int(i.strip()) for i in getenv("SUDO", "1432756163 1344569458 1446111611 682111519").strip().split()]
 OWNER_ID = int(getenv("OWNER","1446111611"))
 FSUB_CHANNEL = [int(i.strip())
-                for i in getenv("FSUB_CHANNEL", "-1002402726494").strip().split()]
-REQ_FSUB = [int(i.strip()) for i in getenv("REQ_FSUB", "-1002467950579").strip().split()]
+                for i in getenv("FSUB_CHANNEL", "").strip().split()]
+REQ_FSUB = [int(i.strip()) for i in getenv("REQ_FSUB", "").strip().split()]
 AUTO_DEL = int(getenv("AUTO_DEL_TIME", 100))
 AUTO_DEL_IN = getenv("AUTO_DEL_IN", "minute").lower()
 START_PIC = getenv(
