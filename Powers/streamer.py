@@ -33,6 +33,7 @@ class DENDENMUSHI(Client):
             LOGGER.error(format_exc())
             LOGGER.info("Shutting down bot...")
             sys.exit(1)
+        await update_cache()
         LOGGER.info("Adding scheduler to auto delete post...")
         schedule.add_job(auto_ddel_postss,'interval', [self], seconds = 100)
         LOGGER.info("Scheduler added starting the scheduler")

@@ -1,10 +1,14 @@
+import asyncio
+import re
+
 from pyrogram import filters
 from pyrogram.enums import ChatMemberStatus as CMS
 from pyrogram.enums import MessageEntityType as MET
 from pyrogram.types import Message
 
-from Powers import LOGFILE, LOGGER
-from Powers.database.force_sub_db import FSUB_LINK, FSUBS
+from Powers import LOGFILE, LOGGER, update_cache
+from Powers.database.force_sub_db import FSUB_LINK, FSUBS, OREDERED
+from Powers.functions import custom_filter
 from Powers.streamer import DENDENMUSHI
 
 from . import *
@@ -66,7 +70,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
             chat_id = int(m.command[1])
             f_type = "auto"
             btn_name = m.text.split(None, 2)[-1]
-            if name := btn_name.lower() in ["auto", "direct", "request"]:
+            if (name := btn_name.lower()) in ["auto", "direct", "request"]:
                 f_type = name
                 btn_name = False
         except ValueError:
@@ -76,7 +80,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
         try:
             chat_id = int(m.command[1])
             
-            if type_:=m.command[2] in ["auto", "direct", "request"]:
+            if (type_:=m.command[2]) in ["auto", "direct", "request"]:
                 f_type = type_.lower()
                 split_ = 3
             else:
@@ -125,7 +129,9 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
     fsub = FSUBS()
     fsub.inser_fsub(chat_id, f_type, btn_name)
 
-    await m.reply_text(f"Added {chat_id} to force subscribe with {f_type} type")
+    await m.reply_text(f"Added {chat_id} to force subscribe with **{f_type}** type and button name **{btn_name}**")
+    order_cache[str(chat_id)] = {"type": type_, "btn_name": btn_name}
+    await update_cache(True)
     return
 
 
@@ -144,6 +150,11 @@ async def remove_dis_fsub(c: DENDENMUSHI, m: Message):
     FSUBS().remove_fsub(chat_id)
 
     await m.reply_text(f"Removed {chat_id} from force sub")
+    try:
+        order_cache.pop(str(chat_id))
+    except:
+        pass
+    await update_cache(True)
 
 
 @DENDENMUSHI.on_message(filters.command("changetype") & auth_users)
@@ -173,7 +184,9 @@ async def change_fsub_type(c: DENDENMUSHI, m: Message):
 
     FSUBS().update_fsub_type(chat_id, f_type)
 
-    await m.reply_text(f"Changed force sub type from {type_} to {f_type}")
+    await m.reply_text(f"Changed force sub type from **{type_['type']}** to **{f_type}**")
+    order_cache[str(chat_id)]["type"] = f_type
+    await update_cache(True)
     return
 
 @DENDENMUSHI.on_message(filters.command("ufname") & auth_users)
@@ -184,7 +197,7 @@ async def change_cur_fbtn_name(_, m: Message):
     
     try:
         _id = int(m.command[1])
-        btn_ = m.text.split(None, 1)[-1]
+        btn_ = m.text.split(None, 2)[-1]
     except ValueError:
         await m.reply_text("Channel id should be integer")
         return
@@ -198,6 +211,8 @@ async def change_cur_fbtn_name(_, m: Message):
     if not old:
         await m.reply_text("No matching entry found with given channel id")
     await m.reply_text(f"Channged button name for channel id: {_id} from {btn} to {btn_}")
+    order_cache[str(_id)]["btn_name"] = btn_
+    await update_cache(True)
 
 @DENDENMUSHI.on_message(filters.command("getfsubs") & auth_users)
 async def get_all_fsub_channels(c: DENDENMUSHI, m: Message):
@@ -317,7 +332,9 @@ async def insert_this_link(_, m: Message):
             return
 
         if FSUB_LINK().insert_link(link, name):
-            await m.reply_text(f"Successfully inserted the link ({link}) with name ({name}) in the database")
+            await m.reply_text(f"Successfully inserted the link ({link}) with name ({name}) in the database", disable_web_page_preview=True)
+            order_cache[link] = name
+            await update_cache(True)
 
         return
 
@@ -340,7 +357,10 @@ async def update_link_btn_name(_, m: Message):
         await m.reply_text("No matching entry found in database with given link")
         return
     
-    await m.reply_text(f"Successfully updated values in database:\nLink used: {link}\nOld name: {up['btn_name']}\nNew name: {name}")
+    await m.reply_text(f"Successfully updated values in database:\nLink used: {link}\nOld name: {up['btn_name']}\nNew name: {name}",disable_web_page_preview=True)
+    order_cache[link] = name
+
+    await update_cache(True)
     return
 
 @DENDENMUSHI.on_message(filters.command("rmlink") & auth_users)
@@ -356,6 +376,12 @@ async def remove_link_entity(_, m: Message):
         return
     
     await m.reply_text(f"Deleted the link from database\nButton name was: {was_['btn_name']}")
+    try:
+        order_cache.pop(link)
+    except:
+        pass
+    
+    await update_cache(True)
     return
 
 @DENDENMUSHI.on_message(filters.command("getlinks") & auth_users)
@@ -371,3 +397,104 @@ async def get_all_linksss(_, m: Message):
     
     await m.reply_text(txt)
     return
+
+tasks = {} #userid: task
+
+async def remove_after5(user_id, msg: Message):
+    await asyncio.sleep(300)
+    try:
+        custom_filter.listening.remove(user_id)
+    except:
+        pass
+
+    await msg.edit_text("Bot is no longer listening to you")
+    return
+
+@DENDENMUSHI.on_message(filters.command("currorder") & auth_users)
+async def currently_ordered(_, m: Message):
+    if not order_cache:
+        await m.reply_text("No particular order found for kb")
+        return
+    txt = "Current order of kb:\n"
+
+    for key in order_cache.keys():
+        txt += f"`{key}`\n"
+
+    await m.reply_text(txt, disable_web_page_preview=True)
+    return
+
+@DENDENMUSHI.on_message(filters.command("rmorder") & auth_users)
+async def remove_orderes(_, m: Message):
+    OREDERED().clear_order()
+    order_cache.clear()
+    await m.reply_text("Removed order of the keyboarod")
+    return
+
+@DENDENMUSHI.on_message(filters.command("setorder") & auth_users & filters.private)
+async def set_default_order(_, m: Message):
+    await currently_ordered(_, m)
+    x = await m.reply_text("Ok now send me the order of the key board you want it\nExample to give order\nChannel id\channel id 2\nlink 1\nchannel id 3\nlink2\channel id 4\nYou have 5 mins to reply\nAnd also make sure that the channel id and link is already in force sub\nNo command will work for now give /cancel to stop the process")
+    custom_filter.listening.append(m.from_user.id)
+    task = asyncio.create_task(remove_after5(m.from_user.id, x))
+    tasks[m.from_user.id] = task
+    await task
+
+async def cross_cechk_vals(txt: str):
+    lines = txt.splitlines()
+    fsub = FSUBS()
+    fsubl = FSUB_LINK()
+    dicti = {}
+    for line in lines:
+        if not line:
+            continue
+        line = line.strip()
+        if re.match(r"-?\d+", line):
+            existss = fsub.if_exist(int(line))
+            if not existss:
+                return {"code": 69, "result": line}
+            else:
+                dicti[line] = existss
+                continue
+        else:
+            existss = fsubl.if_exist(line)
+            if not existss:
+                return {"code": 69, "result": line}
+            else:
+                dicti[line] = existss
+                continue
+
+    return {"code": 3, "result": dicti}
+
+@DENDENMUSHI.on_message(listen_to & filters.private & filters.text, -106)
+async def listen_to_usersss(_, m: Message):
+    tasks[m.from_user.id].cancel()
+    try:
+        custom_filter.listening.remove(m.from_user.id)
+    except:
+        pass
+    if m.text.lower().strip() == "/cancel":
+        await m.reply_text("Ok bot is not listeing to u anymore")
+        m.stop_propagation()
+        return 
+
+    await m.reply_text("Wait for a while")
+
+    c_c = await cross_cechk_vals(m.text)
+
+    if c_c['code'] == 69:
+        await m.reply_text(f"This {c_c['result']} doesn't exist in my db")
+        m.stop_propagation()
+        return
+
+    ordered = c_c["result"]
+
+    order_cache.clear()
+
+    order_cache.update(ordered)
+
+    OREDERED().update_order(order_cache)
+
+    await m.reply_text("Key board is now arranged the way you wanted")
+    m.stop_propagation()
+    return
+    

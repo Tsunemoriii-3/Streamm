@@ -1,10 +1,11 @@
+import re
 from typing import List
 
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
-from Powers import LOGGER
+from Powers import LOGGER, order_cache
 from Powers.database.force_sub_db import FSUB_LINK, FSUBS
 from Powers.functions.caching import CACHE
 from Powers.utils.en_de_crypt import encode_decode
@@ -29,7 +30,7 @@ async def iterate_dev_caption(page: int = 1):
         new = ""
 
         if not start:
-            for line in caption[start : end]:
+            for line in lines[start : end]:
                 new += line
             kb = [
                 [
@@ -38,7 +39,7 @@ async def iterate_dev_caption(page: int = 1):
             ]
         
         elif page == total:
-            for line in caption[start:]:
+            for line in lines[start:]:
                 new += line
             kb = [
                 [
@@ -46,7 +47,7 @@ async def iterate_dev_caption(page: int = 1):
                 ]
             ]
         else:
-            for line in caption[start : end]:
+            for line in lines[start : end]:
                 new += line
             kb = [
                 [
@@ -81,34 +82,70 @@ async def get_fsub_kb(c: Client, data: str = "start") -> List[IKM]:
 
         fsub_join_links = []
 
-        for i, j in enumerate(all_fsubs):
-            channel = int(j["c_id"])
-            if j["type"] == "request":
-                invite_link = await c.create_chat_invite_link(
-                    channel, creates_join_request=True
-                )
-            else:
-                invite_link = await c.create_chat_invite_link(channel)
-            
-            kb_name = f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {i+1}⚡️"
-            if name := j.get("btn_name", False):
-                kb_name = name
+        if order_cache:
+            x = 1
+            for key, val in order_cache.items():
+                if re.match(r"-?\d+", key):
+                    channel = int(key)
+                    if val["type"] == "request":
+                        invite_link = await c.create_chat_invite_link(
+                            channel, creates_join_request=True
+                        )
+                    else:
+                        invite_link = await c.create_chat_invite_link(channel)
+                    
+                    kb_name = f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {x}⚡️"
+                    x += 1
+                    if name := val.get("btn_name", False):
+                        kb_name = name
+                        x -= 1
 
-            fsub_join_links.append(
-                IKB(kb_name, url=invite_link.invite_link)
-            )
+                    fsub_join_links.append(
+                        IKB(kb_name, url=invite_link.invite_link)
+                    )
+                else:
+                    if val:
+                        btn_name = val
+                    else:
+                        btn_name = f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {x}⚡️"
+                        x += 1
+                        
+                    fsub_join_links.append(
+                        IKB(btn_name, url=key)
+                    )
 
-        all_links = FSUB_LINK().get_all()
-
-        for i in all_links:
-            if name:=i.get("btn_name", None):
-                btn_name = name
-            else:
-                btn_name = "⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹⚡️"
+        else:
+            for i, j in enumerate(all_fsubs):
+                channel = int(j["c_id"])
+                if j["type"] == "request":
+                    invite_link = await c.create_chat_invite_link(
+                        channel, creates_join_request=True
+                    )
+                else:
+                    invite_link = await c.create_chat_invite_link(channel)
                 
-            fsub_join_links.append(
-                IKB(btn_name, url=i["link"])
-            )
+                kb_name = f"⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹 {i+1}⚡️"
+                if name := j.get("btn_name", False):
+                    kb_name = name
+
+                fsub_join_links.append(
+                    IKB(kb_name, url=invite_link.invite_link)
+                )
+
+            all_links = FSUB_LINK().get_all()
+
+            for i in all_links:
+                if name:=i.get("btn_name", None):
+                    btn_name = name
+                else:
+                    btn_name = "⚡️𝗝𝗼𝗶𝗻 𝗖𝗵𝗮𝗻𝗻𝗲𝗹⚡️"
+                    
+                fsub_join_links.append(
+                    IKB(btn_name, url=i["link"])
+                )
+
+        if not fsub_join_links:
+            return None
 
         orgainzed = await orgainzed_kb(fsub_join_links)
         orgainzed.append(
@@ -118,6 +155,7 @@ async def get_fsub_kb(c: Client, data: str = "start") -> List[IKM]:
 
     except Exception as e:
         LOGGER.error(e)
+        LOGGER.error(format_exc())
 
 
 async def start_kb_genrator():

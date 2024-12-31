@@ -482,6 +482,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
         LOGGER.error(e)
         LOGGER.error(format_exc())
         return None, None
+        
     english_title = data["title"]["english"]
     native_title = data["title"]["native"]
     if not english_title:

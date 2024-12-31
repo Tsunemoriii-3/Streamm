@@ -21,3 +21,5 @@ class CACHE:
     ani_list_id = dict()
 
     user_pref = dict() #{user_id : ask/sub/dub}
+
+    kb_order = dict()

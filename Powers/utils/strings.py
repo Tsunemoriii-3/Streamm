@@ -35,6 +35,9 @@ dev_msg = """
 • /getlinks : Give all the current links
 • /rmlink [link]: Remove the link from database
 • /getfsubs: Return all the fsubs channel with their types
+• /currorder: Return the current order of keyboard
+• /rmorder: Remove the order of keyboard
+• /setorder: Bot will ask for the order you want to set
 • /logs: Return logs
 • /stats: Current stats of the bot
 • /gcast [tag] [reply to message]: Will broadcast replied message according to given tag

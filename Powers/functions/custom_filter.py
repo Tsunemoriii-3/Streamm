@@ -10,6 +10,7 @@ from Powers.database.pending_req_db import REQUESTED_USERS
 from Powers.database.sudo_db import SUPPORTS
 from Powers.functions.kb_genrator import *
 
+listening = []
 
 async def is_authorized(_, __, data: Message or CallbackQuery):
     if data.from_user:
@@ -23,6 +24,9 @@ async def not_commands(_, __, m: Message):
     if m.command:
         return False
     return True
+
+async def listen_to_user(_, __, m: Message):
+    return True if m.from_user and m.from_user.id in listening else False
 
 def is_joined(func):
     async def force_subscriber(c: Client, m: Message):
@@ -124,6 +128,6 @@ def is_joined(func):
 
     return force_subscriber
 
-
+listen_to = filters.create(listen_to_user)
 no_cmd = filters.create(not_commands)
 auth_users = filters.create(is_authorized)
