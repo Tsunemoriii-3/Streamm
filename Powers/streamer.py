@@ -6,9 +6,9 @@ from apscheduler.schedulers.asyncio import AsyncIOScheduler
 from pyrogram import Client, __version__
 from pyrogram.raw.all import layer
 
-import Powers
-from Powers import *
+from Powers import load_channels, load_support_users, update_cache
 from Powers.config import *
+from Powers.logger import LOGGER
 from Powers.plugins.auto_del_posts import auto_ddel_postss
 
 schedule = AsyncIOScheduler()
@@ -24,10 +24,6 @@ class DENDENMUSHI(Client):
         )
 
     async def start(self):
-        global LOGGER, LOGFILE
-        Powers.LOGFILE, Powers.LOGGER = initiate_logger()
-        LOGGER = Powers.LOGGER
-        LOGFILE = Powers.LOGFILE
         LOGGER.info("Starting the bot...")
         await super().start()
         await load_support_users()

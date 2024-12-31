@@ -4,8 +4,8 @@ from traceback import format_exc
 from pyrogram import Client
 from pyrogram.errors.exceptions import MessageDeleteForbidden
 
-from Powers import LOGGER
 from Powers.database.auto_del_mess import auto_del_delete, auto_del_get
+from Powers.logger import LOGGER
 
 # from info import AUTO_DEL
 

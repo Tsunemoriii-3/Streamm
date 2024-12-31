@@ -3,6 +3,7 @@ from traceback import format_exc
 
 from Powers.config import AUTO_DEL, AUTO_DEL_IN, OWNER_ID, START_PIC
 from Powers.functions import *
+from Powers.logger import LOGFILE, LOGGER
 from Powers.utils import *
 
 

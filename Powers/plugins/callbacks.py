@@ -7,7 +7,6 @@ from platform import python_version
 from pyrogram import __version__
 from pyrogram.types import CallbackQuery
 
-from Powers import LOGGER
 from Powers.config import NO_RES_PIC, SEARCH_PIC
 from Powers.database.auto_del_mess import auto_del_insert
 from Powers.functions import *

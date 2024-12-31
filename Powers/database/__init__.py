@@ -3,7 +3,8 @@ from traceback import format_exc
 
 from pymongo import MongoClient
 
-from Powers import LOGGER, config
+from Powers import config
+from Powers.logger import LOGGER
 
 try:
     DB_CLIENT = MongoClient(config.DB_URI)

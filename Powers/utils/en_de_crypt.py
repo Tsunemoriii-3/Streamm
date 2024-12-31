@@ -1,6 +1,7 @@
 import base64
 import re
 
+
 def is_base64(string):
     """Check if a string is Base64 encoded."""
     if len(string) % 4 == 0:

@@ -6,8 +6,8 @@ import httpx
 from bs4 import BeautifulSoup
 from lxml import html
 
-from Powers import LOGGER
 from Powers.functions.caching import CACHE
+from Powers.logger import LOGGER
 from Powers.utils.strings import ani_info_string, char_info_string
 
 ani_info = CACHE.ani_info

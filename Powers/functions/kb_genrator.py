@@ -5,9 +5,10 @@ from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
 
-from Powers import LOGGER, order_cache
+from Powers import order_cache
 from Powers.database.force_sub_db import FSUB_LINK, FSUBS
 from Powers.functions.caching import CACHE
+from Powers.logger import LOGGER
 from Powers.utils.en_de_crypt import encode_decode
 from Powers.utils.strings import dev_msg
 

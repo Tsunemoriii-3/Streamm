@@ -6,7 +6,7 @@ from pyrogram.enums import ChatMemberStatus as CMS
 from pyrogram.enums import MessageEntityType as MET
 from pyrogram.types import Message
 
-from Powers import LOGFILE, LOGGER, update_cache
+from Powers import update_cache
 from Powers.database.force_sub_db import FSUB_LINK, FSUBS, OREDERED
 from Powers.functions import custom_filter
 from Powers.streamer import DENDENMUSHI
