@@ -55,11 +55,12 @@ async def auto_ddel_postss(app: Client):
                 except MessageDeleteForbidden:
                     msg = await app.get_messages(int(i["chat_id"]), int(i["mess_id"]))
                     await msg.delete()
+                LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
             except Exception as e:
                 LOGGER.error(e)
                 LOGGER.error(format_exc())
                 pass
             
             # remove from db anyway
+            LOGGER.info(f"Removed the entry from the db {i['mess_id']}, {i['chat_id']}")
             auto_del_delete(i["chat_id"], i["mess_id"])
-            LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
