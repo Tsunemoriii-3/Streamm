@@ -36,7 +36,7 @@ async def is_media_post(app: Client, chat, message_id, date):
             break
         else:
             try:
-                auto_del_delete(date, chat, mess)
+                auto_del_delete(chat, mess)
                 await app.delete_messages(chat, mess)
                 mess += 1
             except Exception:
@@ -55,9 +55,11 @@ async def auto_ddel_postss(app: Client):
                 except MessageDeleteForbidden:
                     msg = await app.get_messages(int(i["chat_id"]), int(i["mess_id"]))
                     await msg.delete()
-                auto_del_delete(i["datee"], i["chat_id"], i["mess_id"])
-                LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
             except Exception as e:
                 LOGGER.error(e)
                 LOGGER.error(format_exc())
                 pass
+            
+            # remove from db anyway
+            auto_del_delete(i["chat_id"], i["mess_id"])
+            LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")

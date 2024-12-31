@@ -13,8 +13,8 @@ def auto_del_get():
     query = list(mycol.find({}))
     return query
 
-def auto_del_delete(date, chat_id:int, message_id:int):
-    query = mycol.find_one({"chat_id":chat_id,"mess_id":message_id,"datee":date})
+def auto_del_delete(chat_id:int, message_id:int):
+    query = mycol.find_one({"chat_id":chat_id,"mess_id":message_id})
     if query:
-        mycol.delete_one({"chat_id":chat_id,"mess_id":message_id,"datee":date})
+        mycol.delete_one({"chat_id":chat_id,"mess_id":message_id})
     return
