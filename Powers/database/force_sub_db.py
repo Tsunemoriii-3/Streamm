@@ -37,7 +37,7 @@ class FSUBS():
 
     def if_exist(self, channel_id):
         if cur := self.db.find_one({"c_id": channel_id}):
-            return {"type": cur["type"], "btn_name": cur["btn_name"]}
+            return {"type": cur["type"], "btn_name": cur.get("btn_name", None)}
         return False
 
     def get_fsubs(self, type_="all"):
