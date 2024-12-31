@@ -231,8 +231,8 @@ async def get_all_fsub_channels(c: DENDENMUSHI, m: Message):
 @DENDENMUSHI.on_message(filters.command("logs") & auth_users)
 async def give_me_logs(c: DENDENMUSHI, m: Message):
     to_del = await m.reply_text("Genrating logs...")
-    with open(LOGFILE) as f:
-        raw = ((f.read()))[1]
+    # with open(LOGFILE) as f:
+    #     raw = ((f.read()))[1]
     await m.reply_document(
         document=LOGFILE,
         quote=True,

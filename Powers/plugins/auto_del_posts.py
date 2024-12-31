@@ -2,6 +2,7 @@ from datetime import datetime
 from traceback import format_exc
 
 from pyrogram import Client
+from pyrogram.errors.exceptions import MessageDeleteForbidden
 
 from Powers import LOGGER
 from Powers.database.auto_del_mess import auto_del_delete, auto_del_get
@@ -49,7 +50,11 @@ async def auto_ddel_postss(app: Client):
         tim = till_date(i["datee"])
         if tim <= datetime.now():
             try:
-                await app.delete_messages(int(i["chat_id"]),int(i["mess_id"]))
+                try:
+                    await app.delete_messages(int(i["chat_id"]),int(i["mess_id"]))
+                except MessageDeleteForbidden:
+                    msg = await app.get_messages(int(i["chat_id"]), int(i["mess_id"]))
+                    await msg.delete()
                 auto_del_delete(i["datee"], i["chat_id"], i["mess_id"])
                 LOGGER.info(f"Deleted message id {i['mess_id']} from chat {i['chat_id']}")
             except Exception as e:
