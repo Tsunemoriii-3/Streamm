@@ -433,7 +433,7 @@ async def remove_orderes(_, m: Message):
 @DENDENMUSHI.on_message(filters.command("setorder") & auth_users & filters.private)
 async def set_default_order(_, m: Message):
     await currently_ordered(_, m)
-    x = await m.reply_text("Ok now send me the order of the key board you want it\nExample to give order\nChannel id\channel id 2\nlink 1\nchannel id 3\nlink2\channel id 4\nYou have 5 mins to reply\nAnd also make sure that the channel id and link is already in force sub\nNo command will work for now give /cancel to stop the process")
+    x = await m.reply_text("Ok now send me the order of the key board you want it\nExample to give order\nChannel id\nchannel id 2\nlink 1\nchannel id 3\nlink2\nchannel id 4\nYou have 5 mins to reply\nAnd also make sure that the channel id and link is already in force sub\nNo command will work for now give /cancel to stop the process")
     custom_filter.listening.append(m.from_user.id)
     task = asyncio.create_task(remove_after5(m.from_user.id, x))
     tasks[m.from_user.id] = task

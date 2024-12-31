@@ -11,34 +11,42 @@ from pyrogram import Client, __version__
 from Powers.config import FSUB_CHANNEL, OWNER_ID, REQ_FSUB, SUDO
 
 LOGDIR = f"{__name__}/logs"
+name = __name__
 
-# Make Logs directory if it does not exixts
-if not path.isdir(LOGDIR):
-    mkdir(LOGDIR)
-# else:
-#     for handler in root.handlers[:]:
-#         if isinstance(handler, FileHandler):
-#             handler.close()
-#             root.removeHandler(handler)
-#     shutil.rmtree(LOGDIR)
-#     mkdir(LOGDIR)
-    # passs
+def initiate_logger():
+    # Make Logs directory if it does not exixts
+    if not path.isdir(LOGDIR):
+        mkdir(LOGDIR)
+    else:
+        for handler in root.handlers[:]:
+            if isinstance(handler, FileHandler):
+                handler.close()
+                root.removeHandler(handler)
+        shutil.rmtree(LOGDIR)
+        mkdir(LOGDIR)
+        # pass
 
-LOG_DATETIME = datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
-LOGFILE = f"{LOGDIR}/{__name__}_{LOG_DATETIME}_log.txt"
+    LOG_DATETIME = datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
+    LOGFILE = f"{LOGDIR}/{name}_{LOG_DATETIME}_log.txt"
+    print(LOGFILE)
 
-file_handler = FileHandler(filename=LOGFILE)
-stdout_handler = StreamHandler(stdout)
+    file_handler = FileHandler(filename=LOGFILE)
+    stdout_handler = StreamHandler(stdout)
 
-basicConfig(
-    format="%(asctime)s - [STREAMER] - %(levelname)s - %(message)s",
-    level=INFO,
-    handlers=[file_handler, stdout_handler],
-)
+    basicConfig(
+        format="%(asctime)s - [STREAMER] - %(levelname)s - %(message)s",
+        level=INFO,
+        handlers=[file_handler, stdout_handler],
+    )
 
-getLogger("pyrogram").setLevel(WARNING)
-LOGGER = getLogger(__name__)
+    getLogger("pyrogram").setLevel(WARNING)
 
+    LOGGER = getLogger(name)
+
+    return LOGFILE, LOGGER
+
+LOGGER = None
+LOGFILE = None
 
 from Powers.database.force_sub_db import FSUB_LINK, FSUBS, OREDERED
 from Powers.database.sudo_db import SUPPORTS
