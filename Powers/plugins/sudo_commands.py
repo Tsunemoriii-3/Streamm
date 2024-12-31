@@ -130,7 +130,7 @@ async def add_this_to_fsub(c: DENDENMUSHI, m: Message):
     fsub.inser_fsub(chat_id, f_type, btn_name)
 
     await m.reply_text(f"Added {chat_id} to force subscribe with **{f_type}** type and button name **{btn_name}**")
-    order_cache[str(chat_id)] = {"type": type_, "btn_name": btn_name}
+    order_cache[str(chat_id)] = {"type": f_type, "btn_name": btn_name}
     await update_cache(True)
     return
 
