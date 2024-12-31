@@ -94,7 +94,7 @@ async def update_cache(upstream = False):
     else:
         channels = FSUBS().get_fsubs()
         for channel in channels:
-            order_cache[str(channel["c_id"])] = {"type": channel["type"], "btn_name": channel["btn_name"]}
+            order_cache[str(channel["c_id"])] = {"type": channel["type"], "btn_name": channel.get("btn_name", None)}
         links = FSUB_LINK().get_all()
 
         for link in links:
