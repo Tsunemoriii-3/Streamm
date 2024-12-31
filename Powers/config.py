@@ -12,7 +12,7 @@ OWNER_ID = int(getenv("OWNER","1446111611"))
 FSUB_CHANNEL = [int(i.strip())
                 for i in getenv("FSUB_CHANNEL", "").strip().split()]
 REQ_FSUB = [int(i.strip()) for i in getenv("REQ_FSUB", "").strip().split()]
-AUTO_DEL = int(getenv("AUTO_DEL_TIME", 100))
+AUTO_DEL = int(getenv("AUTO_DEL_TIME", 5))
 AUTO_DEL_IN = getenv("AUTO_DEL_IN", "minute").lower()
 START_PIC = getenv(
     "START_PIC", "https://telegra.ph/file/a79055783ce7582d2cf3d.jpg")
