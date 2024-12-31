@@ -15,14 +15,14 @@ LOGDIR = f"{__name__}/logs"
 # Make Logs directory if it does not exixts
 if not path.isdir(LOGDIR):
     mkdir(LOGDIR)
-else:
-    for handler in root.handlers[:]:
-        if isinstance(handler, FileHandler):
-            handler.close()
-            root.removeHandler(handler)
-    shutil.rmtree(LOGDIR)
-    mkdir(LOGDIR)
-    # pass
+# else:
+#     for handler in root.handlers[:]:
+#         if isinstance(handler, FileHandler):
+#             handler.close()
+#             root.removeHandler(handler)
+#     shutil.rmtree(LOGDIR)
+#     mkdir(LOGDIR)
+    # passs
 
 LOG_DATETIME = datetime.now().strftime("%d_%m_%Y-%H_%M_%S")
 LOGFILE = f"{LOGDIR}/{__name__}_{LOG_DATETIME}_log.txt"
