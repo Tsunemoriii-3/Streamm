@@ -99,7 +99,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             ani_id = query
             await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
             last_EP = int(q.message.caption.split("\n")[2].split("-")[-1].strip())
-            kb = await genrate_ep_kb(ani_id, last_EP, page)
+            sdata = f"p_{ani_id}_{page}"
+            kb = await genrate_ep_kb(ani_id, last_EP, page, sdata)
             int_part, float_part = str(last_EP / 25).split(".")
             total_page = int(int_part) + \
                 (1 if bool(float_part.strip("0")) > 0 else 0)
@@ -156,7 +157,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         Name = _id.replace('-', ' ').capitalize()
         txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {epnumber}"
         links = get_download_stream_links(_id, epnumber, dub)
-        kb = await genrate_stream_kb(name, page, links)
+        formated = f"d_{get_ep_fromat(_id, epnumber, dub)}"
+        kb = await genrate_stream_kb(name, page, links, formated)
 
         msg = await q.edit_message_caption(txt, reply_markup=kb)
         tim = str(get_del_time())
@@ -186,10 +188,12 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 return
             elif is_dub and pref == "sub":
                 links = get_download_stream_links(_id, epnumber, True)
-                kb = await genrate_stream_kb(name, page, links)
+                formated = f"d_{get_ep_fromat(_id, epnumber, True)}"
+                kb = await genrate_stream_kb(name, page, links, formated)
             else:
                 links = get_download_stream_links(_id, epnumber)
-                kb = await genrate_stream_kb(name, page, links)
+                formated = f"d_{get_ep_fromat(_id, epnumber)}"
+                kb = await genrate_stream_kb(name, page, links, formated)
 
             msg = await q.edit_message_caption(txt, reply_markup=kb)
             tim = str(get_del_time())
@@ -200,7 +204,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             name = get_anime_results(_id, top=True)
             total_ep = get_last_ep(name)
             await q.answer(f"» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
-            kb = await genrate_ep_kb(_id, total_ep, int(page))
+            sdata = f"a_{name}_{page}"
+            kb = await genrate_ep_kb(_id, total_ep, int(page), sdata)
             txt = ep_txt.format(ep=total_ep, p=page)
 
             await q.edit_message_caption(txt, reply_markup=kb)
@@ -230,6 +235,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data.startswith("deep:"):
         link = await genrate_deep_link(c, data.split(":")[-1])
+        await q.answer("Genrated link to be shared with your friends. If you have any", True)
         await q.message.reply_text(f"» 𝗦𝗵𝗮𝗿𝗲𝗮𝗯𝗹𝗲 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱!!! \n\n𝗧𝗮𝗽 𝗧𝗼 𝗖𝗼𝗽𝘆 - `{link}`")
         return
 
@@ -269,7 +275,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:
                 last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())
-            kb = await genrate_ep_kb(name, last_EP)
+            sdata = f"p_{name}_1"
+            kb = await genrate_ep_kb(name, last_EP, sdata=sdata)
             int_part, float_part = str(last_EP / 25).split(".")
             total_page = int(int_part) + (1 if bool(float_part.strip("0")) else 0)
             page = f"1/{total_page}"

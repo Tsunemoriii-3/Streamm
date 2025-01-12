@@ -93,3 +93,15 @@ char_info_string = """
 anime_res_txt = "<b><i>» Found Results For: {q}\n\n» Page: {p}/{tp}</i></b>"
 
 ep_txt = "<b><i>» Choose The Episode You Want To Stream / Download From Below.\n\n» Total Episodes - {ep}\n\n» Page - {p}</i></b>"
+
+
+SHARE_TEXT = """
+Hey currently I am watching an Anime and I think you may find it interesting
+Click on the link above to directly get it
+"""
+#If don't want this text then set the variable as SHARE_TEXT = None also don't remove {anime} from you new custom text
+
+DEFAULT_TEXT = """
+Hey currently I am watching an Anime
+Click on the link above to start watcing.
+"""

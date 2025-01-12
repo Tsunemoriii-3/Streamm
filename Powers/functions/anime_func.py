@@ -8,7 +8,9 @@ from lxml import html
 
 from Powers.functions.caching import CACHE
 from Powers.logger import LOGGER
-from Powers.utils.strings import ani_info_string, char_info_string
+from Powers.utils.en_de_crypt import encode_decode
+from Powers.utils.strings import (DEFAULT_TEXT, SHARE_TEXT, ani_info_string,
+                                  char_info_string)
 
 ani_info = CACHE.ani_info
 ani_chars = CACHE.ani_chars
@@ -196,8 +198,14 @@ character_query = """query ($id: Int, $search: String) {
 }"""
 
 
-async def genrate_deep_link(c, data:str):
-    return f"tg://resolve?domain={c.me.username}&start=a_{data}"
+async def genrate_deep_link(c, data: str):
+    if data.startswith("d_"):
+        encod = await encode_decode(data.split("_",1)[-1])
+        link = f"tg://resolve?domain={c.me.username}&start=d_{encod}"
+    else:
+        link = f"tg://resolve?domain={c.me.username}&start={data}"
+    
+    return link
 
 
 def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool = False):
@@ -239,6 +247,9 @@ def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool =
         num = 1
         if top:
             id_ = search_results[0].xpath(".//a/@href")[0].split("/")[-1]
+            if with_img:
+                img = search_results[0].xpath(".//img/@src")[0]
+                return id_, img
             return id_
         total_page = list(to_lxml.xpath("//*[@id='wrapper_bg']/section/section[1]/div/div[1]/div/div/ul"))
         if not total_page:

@@ -292,6 +292,7 @@ async def ani_info_kb(anime_id):
         size = len(ts.encode("utf-8"))
         if size > 64:
             id_ = anime_id
+    
     kb = [
         [
             IKB("ᴄʜᴀʀᴀᴄᴛᴇʀs", f"char:{id_}"),
@@ -301,12 +302,11 @@ async def ani_info_kb(anime_id):
             IKB("𝗦𝘁𝗿𝗲𝗮𝗺 / 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 - 𝗘𝗽𝗶𝘀𝗼𝗱𝗲𝘀", f"episode:{id_}")
         ],
         [
-            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{id_}")
+            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:a_{id_}")
         ]
     ]
 
     return IKM(kb)
-
 
 async def desc_back(anime, Des: bool = False):
     anime = str(anime)
@@ -324,7 +324,7 @@ async def desc_back(anime, Des: bool = False):
         return IKM([[IKB("ᴄʜᴀʀᴀᴄᴛᴇʀs", f"char:{en_query}"), IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}")]])
 
 
-async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
+async def genrate_ep_kb(anime_id, total_eps, curr_page=1, sdata=None):
     kb = []
     global ep_kb
     anime_id = str(anime_id)
@@ -352,17 +352,7 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
         
     rearranged = await orgainzed_kb(kb, 5)
 
-    if total_page == 1:
-        rearranged.extend(
-            [
-                [
-                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
-                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
-                ]
-            ]
-        )
-
-    elif curr_page >= total_page:
+    if curr_page >= total_page:
         rearranged.extend(
             [
 
@@ -377,10 +367,6 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                 [
                     IKB("◀️ 𝗙𝗶𝗿𝘀𝘁 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{1}"),
                 ],
-                [
-                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
-                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
-                ]
             ]
         )
 
@@ -398,10 +384,6 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                 [
                     IKB("𝗟𝗮𝘀𝘁 𝗣𝗮𝗴𝗲 ▶️", f"PREV:{encoded_id}_{total_page}"),
                 ],
-                [
-                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
-                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
-                ]
             ]
         )
         
@@ -420,13 +402,21 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
                     IKB("◀️ 𝗙𝗶𝗿𝘀𝘁 𝗣𝗮𝗴𝗲", f"PREV:{encoded_id}_{1}"),
                     IKB("𝗟𝗮𝘀𝘁 𝗣𝗮𝗴𝗲 ▶️", f"NEXT:{encoded_id}_{total_page}"),
                 ],
-                [
-                    IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
-                    IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
-                ]
             ]
         )
 
+    if sdata:
+        rearranged.append(
+            [
+                IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{sdata}")
+            ]
+        )
+    rearranged.append(
+        [
+            IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+            IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
+        ]
+    )
     i_kb = IKM(rearranged)
     if ep_kb.get(anime_id):
         ep_kb[anime_id][curr_page] = i_kb
@@ -436,8 +426,7 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1):
     return i_kb
 
 
-async def genrate_stream_kb(anime_id, page, kwargs):
-    en_query = f"{anime_id}_{page}"
+async def genrate_stream_kb(anime_id, page, kwargs, sharedata):
     kb = [
         [
             IKB("𝗦𝘁𝗿𝗲𝗮𝗺 - 𝗢𝗻𝗹𝗶𝗻𝗲 --->", url=kwargs["stream"]),
@@ -452,11 +441,20 @@ async def genrate_stream_kb(anime_id, page, kwargs):
         kb.append(to_append)
     else:
         kb.append([IKB("Download", url=kwargs["download"])])
-    kb.append(
-        [
-            IKB("ʙᴀᴄᴋ", f"bep:{en_query}"),
-        ]
-    )
+
+    if sharedata:
+        kb.append(
+            [
+                IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{sharedata}")
+            ]
+        )
+    if anime_id and page:
+        en_query = f"{anime_id}_{page}"
+        kb.append(
+            [
+                IKB("ʙᴀᴄᴋ", f"bep:{en_query}"),
+            ]
+        )
     return IKM(kb)
 
 async def sub_or_dub_kb(anime_id, page, episode):
@@ -466,7 +464,7 @@ async def sub_or_dub_kb(anime_id, page, episode):
             IKB("𝗗𝘂𝗯", f"dub:{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{anime_id}_{page}_{episode}")
+            IKB("𝗦𝗵𝗮𝗿𝗲", f"a_{anime_id}_{page}_{episode}")
         ],
         [
             IKB("ʙᴀᴄᴋ", f"bep:{anime_id}_{page}"),

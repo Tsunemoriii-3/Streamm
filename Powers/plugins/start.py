@@ -24,6 +24,46 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                 character_name = splited[1]
             else:
                 anime_id = splited[1]
+        elif data.startswith("d_"):
+            to_del = await m.reply_text("𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁.")
+            splited = data.split("_",1)[1]
+            decod = (await encode_decode(splited, "decode")).split("-episode-")
+            temp = decod[0]
+            is_dub = bool(temp.rsplit("-", 1) == "dub") 
+            if is_dub:
+                _id = temp.rsplit("-",1)[0]
+            else:
+                _id = temp
+            ep = decod[-1]
+            to_del = await to_del.edit_text("𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜..")
+            links = get_download_stream_links(_id, ep, is_dub)
+            to_del = await to_del.edit_text("𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 Buttons...")
+            sdata = f"d_{get_ep_fromat(_id, ep, is_dub)}"
+            kb = await genrate_stream_kb(None, None, links, sdata)
+            txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {_id.replace('-', ' ').capitalize()}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep}"
+            await to_del.delete()
+            msg = await m.reply_text(txt, reply_markup=kb)
+            tim = str(get_del_time())
+            auto_del_insert(tim, m.from_user.id, msg.id)
+            return
+        elif data.startswith("p_"):
+            anime_data = data.split("_")
+            name, page = anime_data[1], anime_data[2]
+            _id, img = get_anime_results(name, top = True, with_img=True)
+            to_del = await m.reply_text("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
+            last_EP = get_last_ep(_id)
+            sdata = f"p_{name}_{page}"
+            page = int(page)
+            kb = await genrate_ep_kb(name, last_EP, page, sdata)
+            int_part, float_part = str(last_EP / 25).split(".")
+            total_page = int(int_part) + (1 if bool(float_part.strip("0")) else 0)
+            page = f"1/{total_page}"
+            txt = ep_txt.format(ep=last_EP, p=page)
+            await to_del.delete()
+            msg = await m.reply_photo(img, caption=txt, reply_markup=kb)
+            tim = str(get_del_time())
+            auto_del_insert(tim, m.from_user.id, msg.id)
+            return
         elif data.startswith("a_"):
             global u_pref
             u_pref[m.from_user.id] = "ask"
@@ -33,8 +73,7 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                 try:
                     _id = name = int(_id)
                 except:
-                    _id = await encode_decode(_id, "decode")
-                    name = _id
+                    _id = name = await encode_decode(_id, "decode")
                 anime_info, picture = get_anime_info(name)
                 to_del = True
                 if not anime_info:
@@ -61,7 +100,8 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                     await m.reply_text(txt, reply_markup=kb)
                     return
                 links = get_download_stream_links(name, ep)
-                kb = await genrate_stream_kb(_id, page, links)
+                formated = f"d_{get_ep_fromat(name, ep, is_dub)}"
+                kb = await genrate_stream_kb(_id, page, links, formated)
 
                 msg = m.reply_text(txt, reply_markup=kb)
                 tim = str(get_del_time())
