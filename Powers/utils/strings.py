@@ -99,7 +99,7 @@ SHARE_TEXT = """
 Hey currently I am watching an Anime and I think you may find it interesting
 Click on the link above to directly get it
 """
-#If don't want this text then set the variable as SHARE_TEXT = None also don't remove {anime} from you new custom text
+#If don't want this text then set the variable as SHARE_TEXT = None
 
 DEFAULT_TEXT = """
 Hey currently I am watching an Anime
