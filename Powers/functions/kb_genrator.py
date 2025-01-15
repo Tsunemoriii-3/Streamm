@@ -464,7 +464,7 @@ async def sub_or_dub_kb(anime_id, page, episode):
             IKB("𝗗𝘂𝗯", f"dub:{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("𝗦𝗵𝗮𝗿𝗲", f"a_{anime_id}_{page}_{episode}")
+            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:a_{anime_id}_{page}_{episode}")
         ],
         [
             IKB("ʙᴀᴄᴋ", f"bep:{anime_id}_{page}"),
