@@ -25,7 +25,7 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
             else:
                 anime_id = splited[1]
         elif data.startswith("d_"):
-            to_del = await m.reply_text("𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁.")
+            to_del = await m.reply_text("𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .")
             splited = data.split("_",1)[1]
             decod = (await encode_decode(splited, "decode")).split("-episode-")
             temp = decod[0]
@@ -35,12 +35,12 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
             else:
                 _id = temp
             ep = decod[-1]
-            to_del = await to_del.edit_text("𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜..")
+            to_del = await to_del.edit_text("𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜...")
             links = get_download_stream_links(_id, ep, is_dub)
             to_del = await to_del.edit_text("𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 Buttons...")
             sdata = f"d_{get_ep_fromat(_id, ep, is_dub)}"
             kb = await genrate_stream_kb(None, None, links, sdata)
-            txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {_id.replace('-', ' ').capitalize()}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep}"
+            txt = f"<b><i>» Streamable And Download Link Generated Successfully. \n\n» Anime - {_id.replace('-', ' ').capitalize()}\n\n» Episode - {ep}</i></b>"
             await to_del.delete()
             msg = await m.reply_text(txt, reply_markup=kb)
             tim = str(get_del_time())
@@ -50,7 +50,7 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
             anime_data = data.split("_")
             name, page = anime_data[1], anime_data[2]
             _id, img = get_anime_results(name, top = True, with_img=True)
-            to_del = await m.reply_text("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...")
+            to_del = await m.reply_text("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .")
             last_EP = get_last_ep(_id)
             sdata = f"p_{name}_{page}"
             page = int(page)
@@ -93,10 +93,10 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                 name = get_anime_results(_id, top=True)
                 Name = name.replace('-', ' ').capitalize()
                 is_dub = is_dub_available(name, ep)
-                txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep}"
+                txt = f"<b><i>» Streamable And Download Link Generated Successfully. \n\n» Anime - {Name}\n\n» Episode - {ep}</i></b>"
                 if is_dub:
                     kb = await sub_or_dub_kb(_id, page, ep)
-                    txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯??"
+                    txt = f"» Do You Want To ▶︎ Stream / Download 🢃 | {Name} ─ Episode ─ {ep} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
                     await m.reply_text(txt, reply_markup=kb)
                     return
                 links = get_download_stream_links(name, ep)
