@@ -1,10 +1,10 @@
 start_msg = """
 • 𝗛𝗲𝗹𝗹𝗼!! 𝗖𝗼𝗺𝗽𝗮𝗱𝗿𝗲 ꈍ◡ꈍ
 
-<b><i>» Welcome To ⚡️⚡️Sonic Family⚡️⚡
-» I'm Anime Flix - I Can Share Streaming And Download Links of Any Anime With You.
+<b><i>» I'm Anime Flix - I Can Share Streaming And Download Links of Any Anime With You.
 » Just Type Name of Any Anime, And Get Surprised By The Results.
-» You Must Join My Channel @Sonic_Otakus And @Anime_Flix_Pro To Use Me.
+» You Must Join My Channel @Sonic_Otakus To Use Me.
+» 
 » Enjoy Your Anime Watching Experience.</i></b>"""
 
 # [Sonic Otakus](https://t.me/Sonic_Otakus)! I can give streamable link as well as download link of all anime and do much more see help to know what I can do.
