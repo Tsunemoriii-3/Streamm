@@ -97,7 +97,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             return
         else:
             ani_id = query
-            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .", True)
             last_EP = int(q.message.caption.split("\n")[2].split("-")[-1].strip())
             sdata = f"p_{ani_id}_{page}"
             kb = await genrate_ep_kb(ani_id, last_EP, page, sdata)
@@ -113,7 +113,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data.startswith("aid:"):
         _, anime = data.split(":", 1)
-        await q.answer("» 𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙸𝚗𝚏𝚘 𝙰𝚗𝚍 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
+        await q.answer("» 𝙵𝚎𝚝𝚌𝚑𝚒𝚗𝚐 𝙸𝚗𝚏𝚘 𝙰𝚗𝚍 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .", True)
         to_del = True
         _id = anime
         name = _id 
@@ -155,7 +155,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         name = _id
         _id = get_anime_results(name, top=True)
         Name = _id.replace('-', ' ').capitalize()
-        txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {epnumber}"
+        txt = f"<b><i>» Streamable And Download Link Generated Successfully. \n\n» Anime - {Name}\n\n» Episode - {epnumber}</i></b>"
         links = get_download_stream_links(_id, epnumber, dub)
         formated = f"d_{get_ep_fromat(_id, epnumber, dub)}"
         kb = await genrate_stream_kb(name, page, links, formated)
@@ -173,7 +173,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             epnumber = episode.rsplit("-",1)[-1]
             _id = get_anime_results(name, top=True)
             Name = _id.replace('-', ' ').capitalize()
-            txt = f"» 𝚂𝚝𝚛𝚎𝚊𝚖𝚊𝚋𝚕𝚎 𝙰𝚗𝚍 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 𝙻𝚒𝚗𝚔 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚎𝚍 𝚂𝚞𝚌𝚌𝚎𝚜𝚜𝚏𝚞𝚕𝚕𝚢!!!\n\n» 𝙰𝚗𝚒𝚖𝚎 - {Name}\n\n» 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]}"
+            txt = f"<b><i>» Streamable And Download Link Generated Successfully. \n\n» Anime - {Name}\n\n» Episode - {ep.rsplit('-',1)[1]}</i></b>"
             page = int(q.message.caption.split("\n")
                        [-1].split("-")[-1].strip().split("/")[0].strip())
             pref = u_pref.get(q.from_user.id)
@@ -183,7 +183,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 is_dub = False
             if is_dub and pref == "ask":
                 kb = await sub_or_dub_kb(name, page, epnumber)
-                txt = f"» 𝙳𝚘 𝚈𝚘𝚞 𝚆𝚊𝚗𝚝 𝚃𝚘 𝚂𝚝𝚛𝚎𝚊𝚖 / 𝙳𝚘𝚠𝚗𝚕𝚘𝚊𝚍 | {Name} - 𝙴𝚙𝚒𝚜𝚘𝚍𝚎 - {ep.rsplit('-',1)[1]} 𝙸𝚗 𝗦𝘂𝗯 𝚘𝚛 𝗗𝘂𝗯?"
+                txt = f"</b>» Do You Want To ▶︎ Stream / Download 🢃 | {Name} ─ Episode ─ {ep.rsplit('-',1)[1]} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
             elif is_dub and pref == "sub":
@@ -203,7 +203,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             _id, page = ep.split("_", 1)
             name = get_anime_results(_id, top=True)
             total_ep = get_last_ep(name)
-            await q.answer(f"» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
+            await q.answer(f"» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .", True)
             sdata = f"a_{name}_{page}"
             kb = await genrate_ep_kb(_id, total_ep, int(page), sdata)
             txt = ep_txt.format(ep=total_ep, p=page)
@@ -235,8 +235,8 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
 
     elif data.startswith("deep:"):
         link = await genrate_deep_link(c, data.split(":")[-1])
-        await q.answer("Genrated link to be shared with your friends. If you have any", True)
-        await q.message.reply_text(f"» 𝗦𝗵𝗮𝗿𝗲𝗮𝗯𝗹𝗲 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱!!! \n\n𝗧𝗮𝗽 𝗧𝗼 𝗖𝗼𝗽𝘆 - `{link}`")
+        await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝚂𝚑𝚊𝚛𝚎𝚋𝚕𝚎 𝙻𝚒𝚗𝚔 𝙵𝚘𝚛 𝚈𝚘𝚞𝚛 𝙵𝚛𝚒𝚎𝚗𝚍𝚜, 𝙸𝚏 𝚈𝚘𝚞 𝙷𝚊𝚟𝚎 𝙰𝚗𝚢 . . .", True)
+        await q.message.reply_text(f"» 𝗦𝗵𝗮𝗿𝗲𝗮𝗯𝗹𝗲 𝗟𝗶𝗻𝗸 𝗚𝗲𝗻𝗲𝗿𝗮𝘁𝗲𝗱! \n\n𝗧𝗮𝗽 𝗧𝗼 𝗖𝗼𝗽𝘆 ─ `{link}`")
         return
 
     elif data.startswith(("des:", "episode:", "char:")):
@@ -249,7 +249,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         if _ == "des":
             anime_description = get_anime_info(name, only_description=True)
             if not anime_description:
-                await q.answer("» 𝗡𝗼 𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗙𝗼𝘂𝗻𝗱!!!")
+                await q.answer("» ❌ 𝗡𝗼 𝗗𝗲𝘀𝗰𝗿𝗶𝗽𝘁𝗶𝗼𝗻 𝗙𝗼𝘂𝗻𝗱!")
                 return
             kb = await desc_back(_id)
 
@@ -259,19 +259,19 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
         elif _ == "char":
             characters = get_char_anime(name)
             if not characters:
-                await q.answer("» 𝗡𝗼 𝗖𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 𝗙𝗼𝘂𝗻𝗱!!!")
+                await q.answer("<b>»</b> ❌ 𝗡𝗼 𝗖𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 𝗙𝗼𝘂𝗻𝗱!")
                 return
             kb = await desc_back(_id, True)
-            char = f"» List of Characters In Anime - <b>{characters['anime_name']}:\n</b>"
+            char = f"<b>»</b> List of Characters In Anime ─ <b>{characters['anime_name']}:\n\n</b>"
             for i in range(1, len(characters)):
-                char += f"»{characters[i]['name']} `{characters[i]['role']}`\n"
+                char += f"<b>» {characters[i]['name']} ─</b> `{characters[i]['role']}`\n"
             
             await q.edit_message_caption(char, reply_markup=kb)
             return
 
         else:
             _id = get_anime_results(name, top = True)
-            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁...", True)
+            await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .", True)
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:
                 last_EP = int(q.message.caption.split("\n")[6].split("~")[-1].strip())
