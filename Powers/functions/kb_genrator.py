@@ -299,10 +299,10 @@ async def ani_info_kb(anime_id):
             IKB("ᴅᴇsᴄʀɪᴘᴛɪᴏɴ", f"des:{id_}")
         ],
         [
-            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 / 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 - 𝗘𝗽𝗶𝘀𝗼𝗱𝗲𝘀", f"episode:{id_}")
+            IKB("▶︎ 𝗦𝘁𝗿𝗲𝗮𝗺 / 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 🢃", f"episode:{id_}")
         ],
         [
-            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:a_{id_}")
+            IKB("╰─➤ 𝗦𝗵𝗮𝗿𝗲 ➤", f"deep:a_{id_}")
         ]
     ]
 
@@ -408,12 +408,12 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1, sdata=None):
     if sdata:
         rearranged.append(
             [
-                IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{sdata}")
+                IKB("╰─➤ 𝗦𝗵𝗮𝗿𝗲 ➤", f"deep:{sdata}")
             ]
         )
     rearranged.append(
         [
-            IKB("ʙᴀᴄᴋ", f"ainfo:{en_query}"),
+            IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"ainfo:{en_query}"),
             IKB("❌ 𝗖𝗹𝗼𝘀𝗲 ❌", "close"),
         ]
     )
@@ -429,11 +429,11 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1, sdata=None):
 async def genrate_stream_kb(anime_id, page, kwargs, sharedata):
     kb = [
         [
-            IKB("𝗦𝘁𝗿𝗲𝗮𝗺 - 𝗢𝗻𝗹𝗶𝗻𝗲 --->", url=kwargs["stream"]),
+            IKB("▶︎ 𝗦𝘁𝗿𝗲𝗮𝗺 ─ 𝗢𝗻𝗹𝗶𝗻𝗲 ────➤", url=kwargs["stream"]),
         ]
     ]
     if type(kwargs["download"]) == list:
-        kb.append([IKB("👇 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 👇", "BELOW_DOWNLOAD")])
+        kb.append([IKB("🢃 𝗗𝗼𝘄𝗻𝗹𝗼𝗮𝗱 🢃", "BELOW_DOWNLOAD")])
         to_append = []
 
         for i in kwargs["download"]:
@@ -445,14 +445,14 @@ async def genrate_stream_kb(anime_id, page, kwargs, sharedata):
     if sharedata:
         kb.append(
             [
-                IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:{sharedata}")
+                IKB("╰─➤ 𝗦𝗵𝗮𝗿𝗲 ➤", f"deep:{sharedata}")
             ]
         )
     if anime_id and page:
         en_query = f"{anime_id}_{page}"
         kb.append(
             [
-                IKB("ʙᴀᴄᴋ", f"bep:{en_query}"),
+                IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"bep:{en_query}"),
             ]
         )
     return IKM(kb)
@@ -464,10 +464,10 @@ async def sub_or_dub_kb(anime_id, page, episode):
             IKB("𝗗𝘂𝗯", f"dub:{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("𝗦𝗵𝗮𝗿𝗲", f"deep:a_{anime_id}_{page}_{episode}")
+            IKB("╰─➤ 𝗦𝗵𝗮𝗿𝗲 ➤", f"deep:a_{anime_id}_{page}_{episode}")
         ],
         [
-            IKB("ʙᴀᴄᴋ", f"bep:{anime_id}_{page}"),
+            IKB("◀️ 𝗕𝗮𝗰𝗸 ◀️", f"bep:{anime_id}_{page}"),
         ]
     ]
 
