@@ -36,7 +36,7 @@ def is_joined(func):
         is_auth = bool(SUPPORTS().is_support_user(m.from_user.id) or m.from_user.id == OWNER_ID)
         if is_auth:
             return await func(c, m)
-        to_del = await m.reply_text("<b><i>» Checking User Profile - Please Wait...</i></b>")
+        to_del = await m.reply_text("<b>» 𝚅𝚎𝚛𝚒𝚏𝚢𝚒𝚗𝚐 𝚄𝚜𝚎𝚛  ─</b>  𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 <b>. . .</b>")
         user_id = 0
         if m.from_user:
             user_id = m.from_user.id
@@ -101,7 +101,7 @@ def is_joined(func):
             if f_join:
                 kb = await get_fsub_kb(c, data)
                 await m.reply_text(
-                    "<b><i>» You Must Join All The Channels First To Access Me.</i></b>",
+                    "<b>»</b> 𝚄𝚜𝚎𝚛 𝚅𝚎𝚛𝚒𝚏𝚒𝚌𝚊𝚝𝚒𝚘𝚗  <b>─  𝙵𝚊𝚒𝚕𝚎𝚍 ❌</b> \n\n» 𝗣𝗹𝗲𝗮𝘀𝗲 𝗝𝗼𝗶𝗻 𝗔𝗹𝗹 𝗧𝗵𝗲 𝗙𝗼𝗹𝗹𝗼𝘄𝗶𝗻𝗴 𝗖𝗵𝗮𝗻𝗻𝗲𝗹𝘀 <b>─</b> 𝗧𝗵𝗲𝗻 𝗖𝗹𝗶𝗰𝗸 >>> 𝗧𝗿𝘆 𝗔𝗴𝗮𝗶𝗻 <<<",
                     reply_markup=kb,
                 )
                 await to_del.delete()
