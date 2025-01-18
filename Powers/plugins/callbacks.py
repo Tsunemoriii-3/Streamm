@@ -253,7 +253,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 return
             kb = await desc_back(_id)
 
-            await q.edit_message_caption(f"<b><i>{anime_description} | @Sonic_Otakus</i></b>", reply_markup=kb)
+            await q.edit_message_caption(f"<b><i>{anime_description}</i></b>", reply_markup=kb)
             return
 
         elif _ == "char":
