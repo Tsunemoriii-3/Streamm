@@ -68,6 +68,9 @@ async def retrieve_totire_anime(_, m: Message):
         txt = "<b>»</b> 𝗧𝗼𝗽 𝟭𝟬+ 𝗔𝗻𝗶𝗺𝗲 𝗼𝗳 𝗔𝗹𝗹 𝗧𝗶𝗺𝗲 ─"
         results = get_alltime_popular()
 
+    if not results:
+        await m.reply_text("Failed to get top animes")
+        return
     kb = await genrate_top_anime_kb(results)
 
     global u_pref

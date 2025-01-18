@@ -198,6 +198,33 @@ character_query = """query ($id: Int, $search: String) {
 }"""
 
 
+anime_trending = """
+query ($page: Int, $perPage: Int){
+  Page(page: $page, perPage: $perPage) {
+    media(type: ANIME, sort: TRENDING_DESC) {
+      id
+      title {
+        romaji
+        english
+    }
+}
+"""
+
+anime_allTime = """
+query ($page: Int, $perPage: Int){
+  Page(page: $page, perPage: $perPage) {
+    media(type: ANIME, sort: POPULARITY_DESC) {
+      id
+      title {
+        romaji
+        english
+      }
+    }
+  }
+}
+"""
+
+
 async def genrate_deep_link(c, data: str):
     if data.startswith("d_"):
         encod = await encode_decode(data.split("_",1)[-1])
@@ -340,56 +367,70 @@ def get_char_anime(query):
     return to_return
 
 def get_trending_anime(page: int = 1, number: int = 10):
-    url = f"https://anilist.co/search/anime/trending?page={page}&perPage={number}"
+    # url = f"https://anilist.co/search/anime/trending?page={page}&perPage={number}"
     
-    res = httpx.get(url, headers=HEADERS)
+    # res = httpx.get(url, headers=HEADERS)
+
+    res = httpx.post("https://graphql.anilist.co", json={"query": anime_trending, "variables": {"page": page, "perPage": number}}, headers=HEADERS)
 
     if res.status_code != 200:
         return None
-    to_lxml = html.fromstring(res.content)
+    # to_lxml = html.fromstring(res.content)
     
-    xpath = "//*[@id='app']/div[3]/div/div/div[5]"
+    # xpath = "//*[@id='app']/div[3]/div/div/div[5]"
     
-    data = list(list(to_lxml.xpath(xpath)[0]))
+    # data = list(list(to_lxml.xpath(xpath)[0]))
+    data = res.json()["data"]["Page"]["media"]
 
-    txt = "Here are top 10 trending animes"
+    # txt = "Here are top 10 trending animes"
 
     to_return = {}
     num = 1
+    
     for i in data:
-        name = i.xpath("./a[2]/text()")
-        id_ = i.xpath("./a[1]/@href")[0].split("/")[2]
+        name = i["title"]["english"]
+        if not name:
+            name = i["title"]["romaji"]
         
-        to_return[num] = {"id": id_, "name": name[0]}
+        id_ = i["id"]
+        # print(f"{id_=} {name=}")
+        to_return[num] = {"id": id_, "name": name}
         num += 1
-
+    # print(to_return)
     return to_return
 
 def get_alltime_popular(page: int = 1, number: int = 10):
-    url = f"https://anilist.co/search/anime/popular?page={page}&perPage={number}"
+    # url = f"https://anilist.co/search/anime/popular?page={page}&perPage={number}"
     
-    res = httpx.get(url, headers=HEADERS)
+    # res = httpx.get(url, headers=HEADERS)
+
+    res = httpx.post("https://graphql.anilist.co", json={"query": anime_allTime, "variables": {"page": page, "perPage": number}}, headers=HEADERS)
 
     if res.status_code != 200:
         return None
-    to_lxml = html.fromstring(res.content)
+    # to_lxml = html.fromstring(res.content)
     
-    xpath = "//*[@id='app']/div[3]/div/div/div[5]"
+    # xpath = "//*[@id='app']/div[3]/div/div/div[5]"
     
-    data = list(list(to_lxml.xpath(xpath)[0]))
+    # data = list(list(to_lxml.xpath(xpath)[0]))
 
-    txt = "Here are top 10 trending animes"
+    data = res.json()["data"]["Page"]["media"]
+
+    # txt = "Here are top 10 All time popular animes"
 
 
     to_return = {}
     num = 1
     for i in data:
-        name = i.xpath("./a[2]/text()")
-        id_ = i.xpath("./a[1]/@href")[0].split("/")[2]
+        name = i["title"]["english"]
+        if not name:
+            name = i["title"]["romaji"]
         
-        to_return[num] = {"id": id_, "name": name[0]}
+        id_ = i["id"]
+        # print(f"{id_=} {name=}")
+        to_return[num] = {"id": id_, "name": name}
         num += 1
-
+    # print(to_return)
     return to_return
 
 
@@ -419,7 +460,7 @@ def get_anilist_id(name):
     url = "https://graphql.anilist.co"
     global ani_id
     if ani_id.get(name):
-        print(ani_id[name])
+        # print(ani_id[name])
         return ani_id[name]
 
     variables = {"search": name}
