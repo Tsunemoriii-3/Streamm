@@ -183,7 +183,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 is_dub = False
             if is_dub and pref == "ask":
                 kb = await sub_or_dub_kb(name, page, epnumber)
-                txt = f"</b>» Do You Want To ▶︎ Stream / Download 🢃 | {Name} ─ Episode ─ {ep.rsplit('-',1)[1]} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
+                txt = f"<b>» Do You Want To ▶️ Stream / Download ⬇️ | {Name} ─ Episode ─ {ep.rsplit('-',1)[1]} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
                 await q.edit_message_caption(txt, reply_markup=kb)
                 return
             elif is_dub and pref == "sub":
@@ -262,7 +262,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
                 await q.answer("<b>»</b> ❌ 𝗡𝗼 𝗖𝗵𝗮𝗿𝗮𝗰𝘁𝗲𝗿𝘀 𝗙𝗼𝘂𝗻𝗱!")
                 return
             kb = await desc_back(_id, True)
-            char = f"<b>»</b> List of Characters In Anime ─ <b>{characters['anime_name']}:\n\n</b>"
+            char = f"<b>» List of Characters In Anime ─ {characters['anime_name']}:\n\n</b>"
             for i in range(1, len(characters)):
                 char += f"<b>» {characters[i]['name']} ─</b> `{characters[i]['role']}`\n"
             
