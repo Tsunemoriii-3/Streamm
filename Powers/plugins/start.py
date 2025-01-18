@@ -96,7 +96,7 @@ async def am_I_alive(c: DENDENMUSHI, m: Message):
                 txt = f"<b><i>» Streamable And Download Link Generated Successfully. \n\n» Anime - {Name}\n\n» Episode - {ep}</i></b>"
                 if is_dub:
                     kb = await sub_or_dub_kb(_id, page, ep)
-                    txt = f"» Do You Want To ▶︎ Stream / Download 🢃 | {Name} ─ Episode ─ {ep} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
+                    txt = f"<b>» Do You Want To ▶️ Stream / Download ⬇️ | {Name} ─ Episode ─ {ep} In <u>𝗦𝘂𝗯</u> or <u>𝗗𝘂𝗯</u>?</b>"
                     await m.reply_text(txt, reply_markup=kb)
                     return
                 links = get_download_stream_links(name, ep)
