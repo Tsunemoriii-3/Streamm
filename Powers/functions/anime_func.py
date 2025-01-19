@@ -200,27 +200,29 @@ character_query = """query ($id: Int, $search: String) {
 
 anime_trending = """
 query ($page: Int, $perPage: Int){
-  Page(page: $page, perPage: $perPage) {
-    media(type: ANIME, sort: TRENDING_DESC) {
-      id
-      title {
-        romaji
-        english
+    Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: TRENDING_DESC) {
+            id
+            title {
+                romaji
+                english
+            }
+        }
     }
 }
 """
 
 anime_allTime = """
 query ($page: Int, $perPage: Int){
-  Page(page: $page, perPage: $perPage) {
-    media(type: ANIME, sort: POPULARITY_DESC) {
-      id
-      title {
-        romaji
-        english
-      }
+    Page(page: $page, perPage: $perPage) {
+        media(type: ANIME, sort: POPULARITY_DESC) {
+            id
+            title {
+                romaji
+                english
+            }
+        }
     }
-  }
 }
 """
 
@@ -372,7 +374,7 @@ def get_trending_anime(page: int = 1, number: int = 10):
     # res = httpx.get(url, headers=HEADERS)
 
     res = httpx.post("https://graphql.anilist.co", json={"query": anime_trending, "variables": {"page": page, "perPage": number}}, headers=HEADERS)
-
+    
     if res.status_code != 200:
         return None
     # to_lxml = html.fromstring(res.content)
