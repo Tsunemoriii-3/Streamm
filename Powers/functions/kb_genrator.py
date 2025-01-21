@@ -1,6 +1,7 @@
 import re
 from typing import List
 
+import pyrogram  # don't remove
 from pyrogram import Client
 from pyrogram.types import InlineKeyboardButton as IKB
 from pyrogram.types import InlineKeyboardMarkup as IKM
@@ -305,6 +306,19 @@ async def ani_info_kb(anime_id):
 
     return IKM(kb)
 
+async def remove_button_from_kb(kb: IKM, btn_callbackdata: str):
+    new_kb = []
+    for i in kb.inline_keyboard:
+        rows = []
+        for j in i:
+            if j.callback_data == btn_callbackdata:
+                continue
+            else:
+                rows.append(j)
+        new_kb.append(rows)
+
+    return IKM(new_kb)
+
 async def desc_back(anime, Des: bool = False):
     anime = str(anime)
     if anime.strip().isnumeric():
@@ -349,7 +363,9 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1, sdata=None):
         
     rearranged = await orgainzed_kb(kb, 5)
 
-    if curr_page >= total_page:
+    if total_page == 1:
+        pass
+    elif curr_page >= total_page:
         rearranged.extend(
             [
 
@@ -401,7 +417,7 @@ async def genrate_ep_kb(anime_id, total_eps, curr_page=1, sdata=None):
                 ],
             ]
         )
-
+    
     if sdata:
         rearranged.append(
             [

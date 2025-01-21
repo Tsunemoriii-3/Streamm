@@ -245,7 +245,7 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             _id = name = int(anime)
         except:
             _id = name = anime
-            name = _id
+
         if _ == "des":
             anime_description = get_anime_info(name, only_description=True)
             if not anime_description:
@@ -270,7 +270,14 @@ async def callback_handlers(c: DENDENMUSHI, q: CallbackQuery):
             return
 
         else:
+            # print(name)
             _id = get_anime_results(name, top = True)
+            if not _id:
+                kb = q.message.reply_markup
+                new_kb = await remove_button_from_kb(kb, q.data)
+                await q.answer("This anime is currently not available on GoGoanime.", True)
+                await q.edit_message_reply_markup(new_kb)
+                return
             await q.answer("» 𝙶𝚎𝚗𝚎𝚛𝚊𝚝𝚒𝚗𝚐 𝙻𝚒𝚗𝚔𝚜, 𝗣𝗹𝗲𝗮𝘀𝗲 𝗪𝗮𝗶𝘁 . . .", True)
             last_EP = get_last_ep(_id)
             if type(last_EP) == str:

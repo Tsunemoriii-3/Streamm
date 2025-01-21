@@ -264,7 +264,7 @@ def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool =
         url = f"https://anitaku.bz/search.html?keyword={query}&page={page}"
 
     response = httpx.get(url, headers=HEADERS)
-
+    # print(response.status_code)
     if response.status_code != 200:
         LOGGER.info(f"httpx.get returned {response.status_code} while searching for anime")
         return to_return
@@ -275,6 +275,7 @@ def get_anime_results(search, page: int = 1, with_img: bool = False, top: bool =
         search_results = list(to_lxml.xpath(xpath)[0])
         num = 1
         if top:
+            # print(query)
             id_ = search_results[0].xpath(".//a/@href")[0].split("/")[-1]
             if with_img:
                 img = search_results[0].xpath(".//img/@src")[0]
