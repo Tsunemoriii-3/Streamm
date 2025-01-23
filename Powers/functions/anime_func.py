@@ -68,46 +68,6 @@ anime_query = """query ($id: Int,$search: String) {
 }"""
 
 
-anime_query_id = """query ($id: Int) {
-    Page (perPage: 10) {
-        media (id: $id, type: ANIME) {
-            id
-            title {
-                romaji
-                english
-                native
-            }
-            type
-            format
-            status
-            description (asHtml: false)
-            episodes
-            duration
-            countryOfOrigin
-            source
-            trailer{
-                id
-                site
-            }
-            genres
-            tags {
-                name
-            }
-            isAdult
-            averageScore
-            studios (isMain: true){
-                nodes{
-                    name
-                }
-            }
-            nextAiringEpisode{
-                episode
-            }
-            siteUrl
-        }
-    }
-}"""
-
 anime_char_query = """query ($id: Int, $search: String) {
     Page (perPage: 10) {
         media (id: $id, type: ANIME,search: $search) {
@@ -499,7 +459,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     if query.strip().isnumeric():
         query = int(query.strip())
         variables = {"id": query}
-        search_query = anime_query_id
+        search_query = anime_query
         already = ani_info.get(query, False)
         name = query_id.get(query)
         _id = query
