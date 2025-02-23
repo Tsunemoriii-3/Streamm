@@ -427,9 +427,9 @@ def get_anilist_id(name):
         return ani_id[name]
 
     variables = {"search": name}
-    search_query = """query ($id: Int,$search: String) {
+    search_query = """query ($search: String) {
         Page (perPage: 1) {
-            media (id: $id, type: ANIME,search: $search) {
+            media (type: ANIME,search: $search) {
                 id
             }
         }
@@ -519,6 +519,7 @@ def get_anime_info(query, only_name: bool = False, only_description: bool = Fals
     # name = f"**[{flag}] {english_title} ({native_title})**"
 
     anime_id = data["id"]
+    print(anime_id)
     score = data["averageScore"] if data["averageScore"] else "N/A"
     source = str(data["source"]).title() if data["source"] else "N/A"
     mtype = str(data["type"]).title() if data["type"] else "N/A"
